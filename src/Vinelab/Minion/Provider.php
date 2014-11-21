@@ -117,8 +117,12 @@ abstract class Provider {
      *
      * @return \React\Promise\Promise
      */
-    protected function register($topic, $callback)
+    protected function register($topic, $callback, $options = null, $isFunction = false)
     {
+        if (is_string($callback) && ! $isFunction) {
+            $callback = [$this, $callback];
+        }
+
         $this->getCallee()->register($this->getSession(), $this->prepareTopic($topic), $callback);
     }
 
