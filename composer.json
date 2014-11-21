@@ -1,0 +1,29 @@
+{
+    "name": "vinelab/minion",
+    "description": "A Simple WAMP (Web Application Messaging Protocol) server and command line tool",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Abed Halawi",
+            "email": "abed.halawi@vinelab.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "voryx/thruway": "0.2.*",
+        "illuminate/support": "4.2.*",
+        "illuminate/console": "4.2.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.*",
+        "vinelab/php-cs-fixer": "dev-master",
+        "squizlabs/php_codesniffer": "1.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Vinelab\\Minion": "src/"
+        }
+    },
+    "bin": ["minion"],
+    "minimum-stability": "stable"
+}

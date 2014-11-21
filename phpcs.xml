@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<ruleset name="Laravel Modified PSR-1">
+
+    <description>
+        A custom coding standard mostly based on PSR-1, adapted to Laravel.
+    </description>
+
+    <exclude-pattern>app/views/*</exclude-pattern>
+    <exclude-pattern>*/start/*</exclude-pattern>
+
+    <rule ref="PSR2">
+        <exclude name="PSR2.Classes.ClassDeclaration.OpenBraceNewLine"/>
+        <exclude name="PSR2.Interface.InterfaceDeclaration.OpenBraceNewLine"/>
+        <exclude name="PEAR.Functions.FunctionCallSignature.CloseBracketLine"/>
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction"/>
+        <exclude name="Generic.ControlStructures.InlineControlStructure.NotAllowed"/>
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction"/>
+        <exclude name="PSR2.ControlStructures.ControlStructureSpacing"/>
+        <exclude name="Squiz.ControlStructures.ControlSignature"/>
+    </rule>
+
+    <rule ref="PSR2.Methods.FunctionCallSignature.ContentAfterOpenBracket">
+        <exclude-pattern>app/launch/*</exclude-pattern>
+    </rule>
+
+    <rule ref="PSR2.Methods.FunctionCallSignature.MultipleArguments">
+        <exclude-pattern>app/launch/*</exclude-pattern>
+    </rule>
+
+    <rule ref="PSR1.Classes.ClassDeclaration.MissingNamespace">
+        <exclude-pattern>app/database/*</exclude-pattern>
+    </rule>
+
+    <rule ref="PSR1.Classes.ClassDeclaration.MultipleClasses">
+        <exclude-pattern>app/database/*</exclude-pattern>
+    </rule>
+
+    <rule ref="PEAR.Commenting.InlineComment"/>
+
+
+
+
+    <!-- <exclude name="PEAR.Commenting.FunctionComment.ExtraParamComment" />
+    <exclude name="PEAR.Commenting.FunctionComment.MissingReturn" />
+    <exclude name="PEAR.Commenting.FunctionComment.MissingParamName" />
+    <exclude name="PEAR.Commenting.FunctionComment.MissingParamTag" />
+    <exclude name="PEAR.Commenting.FunctionComment.ParameterCommentsNotAligned" />
+    <exclude name="PEAR.Commenting.FunctionComment.ParameterNamesNotAligned" />
+    <exclude name="PEAR.Commenting.FunctionComment.ParamNameNoMatch" />
+    <exclude name="PEAR.Commenting.FunctionComment.SpacingBeforeParams" />
+-->
+
+    <rule ref="PEAR.Commenting.FunctionComment">
+        <exclude-pattern>app/controllers/*</exclude-pattern>
+        <exclude-pattern>app/Najem/Facades/*</exclude-pattern>
+        <exclude name="PEAR.Commenting.FunctionComment.SpacingBeforeTags" />
+        <exclude name="PEAR.Commenting.FunctionComment.SpacingAfterParams" />
+        <exclude name="PEAR.Commenting.FunctionComment.MissingParamComment" />
+    </rule>
+
+    <rule ref="Squiz.ControlStructures.InlineIfDeclaration">
+    </rule>
+    <rule ref="Internal.NoCodeFound">
+        <exclude-pattern>*/views/*</exclude-pattern>
+    </rule>
+
+
+</ruleset>
