@@ -17,13 +17,17 @@
     },
     "require-dev": {
         "phpunit/phpunit": "4.*",
+        "mockery/mockery": "0.9.*",
         "vinelab/php-cs-fixer": "dev-master",
         "squizlabs/php_codesniffer": "1.*"
     },
     "autoload": {
         "psr-0": {
             "Vinelab\\Minion": "src/"
-        }
+        },
+        "classmap": [
+            "tests/UnitTestCase.php"
+        ]
     },
     "bin": ["minion"],
     "minimum-stability": "stable"
