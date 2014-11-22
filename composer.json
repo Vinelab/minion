@@ -1,6 +1,7 @@
 {
     "name": "vinelab/minion",
     "description": "A Simple WAMP (Web Application Messaging Protocol) server and command line tool",
+    "keywords" :["wamp", "laravel", "thruway", "symfony", "minion", "wampws", "websocket", "realtime", "real-time"],
     "license": "MIT",
     "authors": [
         {
