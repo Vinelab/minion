@@ -36,16 +36,6 @@ class Minion {
     private $config;
 
     /**
-     * Constructor.
-     *
-     * @param array $options This is where you get to customize your stuff.
-     */
-    public function __construct(array $options = [])
-    {
-        $this->mergeConfig($options);
-    }
-
-    /**
      * Register the given provider.
      *
      * @param Closure|string $provider
@@ -79,14 +69,18 @@ class Minion {
     /**
      * Run the server.
      *
+     * @param array $options
+     *
      * @return void
      *
      * @throws \Exception If encountered any failure starting the server.
      */
-    public function run()
+    public function run($options = [])
     {
-        $router = new Router();
+        // Merge the options into the configurations
+        $this->mergeConfig($options);
 
+        $router = new Router();
         $transportProvider = new RatchetTransportProvider($this->getConfig('host'), $this->getConfig('port'));
         $router->addTransportProvider($transportProvider);
 
@@ -96,8 +90,10 @@ class Minion {
 
         $router->addTransportProvider($internalTransportProvider);
 
+        // Print out our lovely minion.
         echo $this->gimmeASCII();
 
+        // Start the router
         $router->start();
     }
 

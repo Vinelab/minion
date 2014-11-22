@@ -57,7 +57,7 @@ class RunCommand extends Command {
             $options['port'] = $this->option('port');
         }
 
-        $m = new Minion($options);
+        $m = new Minion();
 
         if ($this->option('register')) {
             foreach ($this->option('register') as $provider) {
@@ -65,7 +65,7 @@ class RunCommand extends Command {
             }
         }
 
-        $m->run();
+        $m->run($options);
     }
 
     /**
