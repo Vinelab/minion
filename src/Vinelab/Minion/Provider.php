@@ -129,8 +129,8 @@ abstract class Provider {
     }
 
     /**
-     * Prepare the topic by prefixing it as a convenience
-     * for having to manually prefix every topic.
+     * Prepare the topic by prefixing it with @property $prefix
+     *  as a convenience for having to manually prefix every topic.
      *
      * @param string $topic
      *
@@ -142,7 +142,7 @@ abstract class Provider {
     }
 
     /**
-     * Set the topic prefxi.
+     * Set the topic prefix.
      *
      * @param string $prefix
      *
