@@ -60,4 +60,13 @@ class Client extends \Thruway\Peer\Client {
             }
         }
     }
+
+    /**
+     * Start the transport
+     *
+     * @return void
+     */
+    public function start()
+    {
+    }
 }
