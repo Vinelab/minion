@@ -114,6 +114,8 @@ abstract class Provider {
      *
      * @param string  $topic
      * @param Closure $callback
+     * @param array   $options
+     * @param bool    $isFunction
      *
      * @return \React\Promise\Promise
      */
