@@ -106,7 +106,7 @@ abstract class Provider {
      */
     protected function publish($topic, $arguments, $argumentsKw = null, $options = null)
     {
-        $this->getSession()->publish($this->prepareTopic($topic), $arguments, $argumentsKw, $options);
+        return $this->getSession()->publish($this->prepareTopic($topic), $arguments, $argumentsKw, $options);
     }
 
     /**
@@ -125,7 +125,7 @@ abstract class Provider {
             $callback = [$this, $callback];
         }
 
-        $this->getCallee()->register($this->getSession(), $this->prepareTopic($topic), $callback);
+        return $this->getCallee()->register($this->getSession(), $this->prepareTopic($topic), $callback, $options);
     }
 
     /**
