@@ -22,6 +22,14 @@ class MinionServiceProvider extends ServiceProvider {
      */
     public function register()
     {
+        // Setup the facade alias
+        $this->app->booting(function () {
+            $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+            $loader->alias('Minion', 'Vinelab\Minion\Facade\Minion');
+        });
+
+        // add the minion class and command to the app under the vinelab namespace
+        $this->app['vinelab.minion'] = $this->app->singleton('Vinelab\Minion\Minion');
         $this->app['vinelab.minion.run'] = $this->app->share(function ($app) {
             return new RunCommand();
         });
