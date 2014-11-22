@@ -2,6 +2,9 @@
 
 use Vinelab\Minion\Client;
 
+/**
+ * @author Abed Halawi <abed.halawi@vinelab.com>
+ */
 class ClientTest extends PHPUnit_Framework_TestCase {
 
     public function test_initializing_sets_providers()

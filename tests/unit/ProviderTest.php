@@ -2,6 +2,9 @@
 
 use Mockery as M;
 
+/**
+ * @author Abed Halawi <abed.halawi@vinelab.com>
+ */
 class ProvderTest extends UnitTestCase {
 
     public function setUp()

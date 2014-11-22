@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @author Abed Halawi <abed.halawi@vinelab.com>
+ */
 class UnitTestCase extends PHPUnit_Framework_TestCase {
 
     public function test_running()
