@@ -18,22 +18,15 @@ class Minion {
     private $providers = [];
 
     /**
-     * The default configuration parameters.
-     *
-     * @var array
-     */
-    private $defaultConfig = [
-        'realm' => 'minion',
-        'host'  => '127.0.0.1',
-        'port'  => 9090,
-    ];
-
-    /**
      * The configuration of this minion.
      *
      * @var array
      */
-    private $config;
+    private $config = [
+        'realm' => 'minion',
+        'host'  => '127.0.0.1',
+        'port'  => 9090,
+    ];
 
     /**
      * Register the given provider.
@@ -122,7 +115,7 @@ class Minion {
      */
     public function mergeConfig(array $options)
     {
-        $this->config = array_merge($this->defaultConfig, $options);
+        $this->config = array_merge($this->config, $options);
     }
 
     /**
