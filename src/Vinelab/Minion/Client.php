@@ -69,4 +69,14 @@ class Client extends \Thruway\Peer\Client {
     public function start()
     {
     }
+
+    /**
+     * Get the registered providers.
+     *
+     * @return array
+     */
+    public function getProviders()
+    {
+        return $this->providers;
+    }
 }
