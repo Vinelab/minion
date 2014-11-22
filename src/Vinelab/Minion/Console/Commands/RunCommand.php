@@ -21,7 +21,7 @@ class RunCommand extends Command {
      *
      * @var string
      */
-    protected $description = '';
+    protected $description = 'Start the WAMP router';
 
     /**
      * The available command options.
