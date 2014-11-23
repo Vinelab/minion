@@ -50,8 +50,11 @@ class RunCommand extends Command {
      */
     public function fire()
     {
+        // We will start off with default options.
         $options = $this->getConfiguration();
 
+        // Read options from CLI and give them priority - will override
+        // existing options.
         if ($this->option('realm')) {
             $options['realm'] = $this->option('realm');
         }
@@ -68,6 +71,12 @@ class RunCommand extends Command {
 
         if ($this->option('register')) {
             foreach ($this->option('register') as $provider) {
+                $m->register($provider);
+            }
+        }
+
+        if (isset($options['providers']) && ! empty($options['providers'])) {
+            foreach ($options['providers'] as $provider) {
                 $m->register($provider);
             }
         }
