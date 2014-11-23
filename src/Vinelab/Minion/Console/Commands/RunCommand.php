@@ -93,8 +93,8 @@ class RunCommand extends Command {
     {
         return [
             ['realm', null, InputOption::VALUE_OPTIONAL, 'Specify WAMP realm to be used'],
-            ['host', null, InputOption::VALUE_OPTIONAL, 'Specify the server host'],
-            ['port', null, InputOption::VALUE_OPTIONAL, 'Specify the server port'],
+            ['host', null, InputOption::VALUE_OPTIONAL, 'Specify the router host'],
+            ['port', null, InputOption::VALUE_OPTIONAL, 'Specify the router port'],
             ['register', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Register provider classes']
         ];
     }
