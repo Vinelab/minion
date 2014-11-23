@@ -24,6 +24,13 @@ class RunCommand extends Command {
     protected $description = 'Start the WAMP router';
 
     /**
+     * Determine whether we're dealing with a laravel command.
+     *
+     * @var bool
+     */
+    public $isLaravel = false;
+
+    /**
      * The available command options.
      *
      * @var array
@@ -43,7 +50,7 @@ class RunCommand extends Command {
      */
     public function fire()
     {
-        $options = [];
+        $options = $this->getConfiguration();
 
         if ($this->option('realm')) {
             $options['realm'] = $this->option('realm');
@@ -81,5 +88,19 @@ class RunCommand extends Command {
             ['port', null, InputOption::VALUE_OPTIONAL, 'Specify the server port'],
             ['register', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Register provider classes']
         ];
+    }
+
+    /**
+     * Get the configuration from the laravel configuration file.
+     *
+     * @return array
+     */
+    public function getConfiguration()
+    {
+        if ($this->isLaravel) {
+            return \Config::get('minion::minion');
+        }
+
+        return [];
     }
 }

@@ -16,6 +16,16 @@ class MinionServiceProvider extends ServiceProvider {
     protected $defer = false;
 
     /**
+     * Bootstrap the service provider.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->package('vinelab/minion');
+    }
+
+    /**
      * Register the service provider.
      *
      * @return void
