@@ -77,9 +77,10 @@ class ChatProvider extends Provider
 ```
 * `start.php`
 
-use Vinelab\Minion\Minion;
 
 ```php
+use Vinelab\Minion\Minion;
+
 $m = new Minion;
 $m->register('ChatProvider');
 $m->run();
