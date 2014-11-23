@@ -39,7 +39,7 @@ class MinionServiceProvider extends ServiceProvider {
         });
 
         // add the minion class and command to the app under the vinelab namespace
-        $this->app['vinelab.minion'] = $this->app->singleton('Vinelab\Minion\Minion');
+        $this->app->singleton('vinelab.minion', 'Vinelab\Minion\Minion');
         $this->app['vinelab.minion.run'] = $this->app->share(function ($app) {
             $command = new RunCommand();
             $command->setName('minion:run');
