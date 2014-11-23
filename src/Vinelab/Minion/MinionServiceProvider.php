@@ -42,6 +42,7 @@ class MinionServiceProvider extends ServiceProvider {
         $this->app->singleton('vinelab.minion', 'Vinelab\Minion\Minion');
         $this->app['vinelab.minion.run'] = $this->app->share(function ($app) {
             $command = new RunCommand();
+            $command->isLaravel = true;
             $command->setName('minion:run');
             return $command;
         });
