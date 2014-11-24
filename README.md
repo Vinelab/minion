@@ -3,7 +3,9 @@
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/aefa4fa3-e213-4a81-873c-94277c05543a/big.png)](https://insight.sensiolabs.com/projects/aefa4fa3-e213-4a81-873c-94277c05543a)
 
 # Minion
-Simple PHP Websocket router implementing [WAMP v2](http://wamp.ws) based on [Thruway](http://github.com/voryx/thruway)
+PHP WebSockets Made Simple.
+
+An extension for the [WAMP v2](http://wamp.ws) Router implementation by [Thruway](http://github.com/voryx/thruway)
 
 ## Installation
 
