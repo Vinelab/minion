@@ -44,6 +44,7 @@ class MinionServiceProvider extends ServiceProvider {
             $command = new RunCommand();
             $command->isLaravel = true;
             $command->setName('minion:run');
+
             return $command;
         });
 
