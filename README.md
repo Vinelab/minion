@@ -22,6 +22,45 @@ facade available throught your project.
 * The command line tool is available through artisan as `php artisan minion:run` see [CLI](#cli)
 * Run `php artisan config:publish vinelab/minion` and head to `app/config/packages/vinelab/minion/minion.php` to configure your minion.
 
+## Configuration
+Configure the connection parameters you want your client to use when it connects to a WAMP router.
+
+### Router
+
+```php
+$m = new Minion():
+$m->run(['realm' => 'myrealm', 'host' => 'some.host.ws', 'port' => 8182]);
+```
+
+### Provider Registration
+
+```php
+$m = new Minion();
+$m->register('ChatProvider');
+$m->register('MyApp\Providers\NotificationProvider'):
+$m->run();
+```
+
+You may also find it useful to list the providers in the config as such:
+
+```php
+$m = new Minion();
+$m->run(
+    [
+        'port'     => 9876,
+
+        'host'     => 'the.host',
+
+        'realm'    => 'somerealm',
+
+        'register' => [
+            'ChatProvider',
+            'SomeOtherProvider'
+            'NotificationProvider',
+        ]
+    ]
+);
+```
 
 ## Usage
 The idea behind Minion is to help structure your application for real-time communication by using **providers**
@@ -134,6 +173,13 @@ use `minion list` for a list of available commands and `minion --help [command]`
         * `--register`: Register provider classes (can be used multiple times)
     * **Example**
     `minion run --realm=chatting --port=9876 --register="ChatProvider" --register="MyApp\Providers\NotificationsProvider"`
+
+### Crossbar.io
+Minion ships with a minimal [crossbar.io](http://crossbar.io) config file which you can find at
+`./vendor/vinelab/minion/.crossbar/config.json` and to start crossbar using it run
+`crossbar start --cbdir ./vendor/vinelab/minion/.crossbar`
+
+For more information on running crossbar head over to [Crossbar.io Quick Start](https://github.com/crossbario/crossbar/wiki/Quick-Start).
 
 ## Contributing
 Pull Requests are most welcome! Dev packages are specified in `composer.json` under `require-dev`
