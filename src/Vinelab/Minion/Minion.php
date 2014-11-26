@@ -1,9 +1,7 @@
 <?php namespace Vinelab\Minion;
 
 use Closure;
-use Thruway\Peer\Router;
-use Thruway\Transport\RatchetTransportProvider;
-use Thruway\Transport\InternalClientTransportProvider;
+use Thruway\Transport\PawlTransportProvider;
 
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
@@ -66,28 +64,49 @@ class Minion {
      *
      * @return void
      *
-     * @throws \Exception If encountered any failure starting the server.
+     * @throws \Exception If encountered any failure starting the client.
      */
     public function run($options = [])
     {
-        // Merge the options into the configurations
         $this->mergeConfig($options);
 
-        $router = new Router();
-        $transportProvider = new RatchetTransportProvider($this->getConfig('host'), $this->getConfig('port'));
-        $router->addTransportProvider($transportProvider);
-
-        $internalTransportProvider = new InternalClientTransportProvider(
-            new Client($this->getConfig('realm'), $this->getRegisteredProviders())
-        );
-
-        $router->addTransportProvider($internalTransportProvider);
-
         // Print out our lovely minion.
-        echo $this->gimmeASCII();
+        echo $this->gimmeASCII()."\n";
 
-        // Start the router
-        $router->start();
+        $client = $this->newClient();
+        $client->addTransportProvider($this->newTransportProvider());
+
+        return $client->start();
+    }
+
+    /**
+     * Get a new Client instance.
+     *
+     * @return \Vinelab\Minion\Client
+     */
+    public function newClient()
+    {
+        return new Client($this->getConfig('realm'), $this->getRegisteredProviders());
+    }
+
+    /**
+     * Get a new transport provider instance.
+     *
+     * @return \Thruway\Transport\PawlTransportProvider
+     */
+    public function newTransportProvider()
+    {
+        return new PawlTransportProvider($this->transportUrl());
+    }
+
+    /**
+     * Get the transport URL that provider should connect to.
+     *
+     * @return string
+     */
+    public function transportUrl()
+    {
+        return 'ws://'.$this->getConfig('host').':'.$this->getConfig('port').'/ws';
     }
 
     /**
