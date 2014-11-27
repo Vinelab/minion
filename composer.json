@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "voryx/thruway": "0.3.*@dev",
+        "voryx/thruway": "dev-master",
         "illuminate/support": "4.2.*",
         "illuminate/console": "4.2.*"
     },
