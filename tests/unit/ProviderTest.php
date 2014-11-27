@@ -274,6 +274,63 @@ class ProvderTest extends UnitTestCase {
 
         $this->assertEquals($got, $promise);
     }
+
+    public function test_calling_simple()
+    {
+        $session = M::mock('Thruway\ClientSession');
+        $promise = M::mock('React\Promise\Promise');
+        $session->shouldReceive('call')->once()
+            ->with('pub.topic', ['dddddata' => 'hhhhhere'], null, null)
+            ->andReturn($promise);
+
+        $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
+
+        $call = $this->unProtectMethod('call', $this->provider);
+        $got = $call->invokeArgs($this->provider, ['pub.topic', ['dddddata' => 'hhhhhere']]);
+
+        $this->assertEquals($got, $promise);
+    }
+
+    public function test_calling_full()
+    {
+        $topic       = 'pub.topic';
+        $arguments   = ['dddddata' => 'hhhhhere'];
+        $argumentsKw = ['arg1', 'argw'];
+        $options     = ['some', 'options', 'heeere'];
+
+        $session = M::mock('Thruway\ClientSession');
+        $promise = M::mock('React\Promise\Promise');
+        $session->shouldReceive('call')->once()->with($topic, $arguments, $argumentsKw, $options)->andReturn($promise);
+
+        $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
+
+        $call = $this->unProtectMethod('call', $this->provider);
+        $got = $call->invokeArgs($this->provider, [$topic, $arguments, $argumentsKw, $options]);
+
+        $this->assertEquals($got, $promise);
+    }
+
+    public function test_calling_prepares_topic()
+    {
+        $topic       = 'pub.topic';
+        $prefixed    = 'test.test.pub.test.pub.topic';
+        $arguments   = ['dddddata' => 'hhhhhere'];
+        $argumentsKw = ['arg1', 'argw'];
+        $options     = ['some', 'options', 'heeere'];
+
+        $this->provider->setTopicPrefix('test.test.pub.test.');
+
+        $session = M::mock('Thruway\ClientSession');
+        $promise = M::mock('React\Promise\Promise');
+        $session->shouldReceive('call')->once()->with($prefixed, $arguments, $argumentsKw, $options)->andReturn($promise);
+
+        $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
+
+        $call = $this->unProtectMethod('call', $this->provider);
+        $got = $call->invokeArgs($this->provider, [$topic, $arguments, $argumentsKw, $options]);
+
+        $this->assertEquals($got, $promise);
+    }
 }
 
 class ProviderStub extends \Vinelab\Minion\Provider {

@@ -129,6 +129,21 @@ abstract class Provider {
     }
 
     /**
+     * Call a registered procedure.
+     *
+     * @param string $procedure
+     * @param array  $arguments
+     * @param array  $argumentsKw
+     * @param array  $options
+     *
+     * @return \React\Promise\Promise
+     */
+    protected function call($procedure, $arguments = null, $argumentsKw = null, $options = null)
+    {
+        return $this->getSession()->call($this->prepareTopic($procedure), $arguments, $argumentsKw, $options);
+    }
+
+    /**
      * Prepare the topic by prefixing it with @property $prefix
      *  as a convenience for having to manually prefix every topic.
      *
