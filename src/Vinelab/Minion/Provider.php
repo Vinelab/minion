@@ -104,7 +104,7 @@ abstract class Provider {
      *
      * @return \React\Promise\Promise
      */
-    protected function publish($topic, $arguments, $argumentsKw = null, $options = null)
+    protected function publish($topic, $arguments = null, $argumentsKw = null, $options = null)
     {
         return $this->getSession()->publish($this->prepareTopic($topic), $arguments, $argumentsKw, $options);
     }
