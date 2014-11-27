@@ -30,5 +30,5 @@
         ]
     },
     "bin": ["minion"],
-    "minimum-stability": "stable"
+    "minimum-stability": "dev"
 }
