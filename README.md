@@ -3,9 +3,13 @@
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/aefa4fa3-e213-4a81-873c-94277c05543a/big.png)](https://insight.sensiolabs.com/projects/aefa4fa3-e213-4a81-873c-94277c05543a)
 
 # Minion
-PHP WebSockets Made Simple.
+A simplified client the WAMP v2 protocol (Web Application Messaging Protocol) with a handy command line tool - PHP WebSocket made easy.
 
-An extension for the [WAMP v2](http://wamp.ws) Router implementation by [Thruway](http://github.com/voryx/thruway)
+Based on the great work put together by [Thruway](http://github.com/voryx/Thruway), Minion will give you the simplicity
+and flexibility of running `minion run` and get a client running in no time. In addition to helping you structure
+your application. See [How It Works](#how-it-works) for details.
+
+For a jump-start head over to the [Quick Start Guide](https://github.com/Vinelab/minion/wiki/Quick-Start-with-Crossbar.io) or read on for detailed docs.
 
 ## Installation
 
@@ -63,12 +67,13 @@ $m->run(
 ```
 
 ## Usage
-The idea behind Minion is to help structure your application for real-time communication by using **providers**
-to *register RPCs* and *publish and subscribe to topics* with predefined functionalities to make things quick.
+The idea behind Minion is to help structure your application and get it ready for scale
+with real-time communication by using **providers** to *register RPCs* and *publish and subscribe to topics*
+with predefined functionalities to make things quick. For more about RPCs and Pub/Sub see [Introduction to WAMP programming](http://autobahn.ws/js/tutorial.html)
 
 ### How It Works
-WAMP is a protocol that defines a router that handles connections of clients, your application is one
-of these clients called *Internal Client* and the application logic is implemented using *providers* which you can
+WAMP is a protocol that defines a Router that handles connections of clients, your application is one
+of these clients and the application logic is implemented within *providers* which you can
 *register* with Minion using the `register($provider)` method. A provider can be the name of a class
 (full namespace if applicable) or a `Closure`.
 
@@ -179,7 +184,9 @@ Minion ships with a minimal [crossbar.io](http://crossbar.io) config file which 
 `./vendor/vinelab/minion/.crossbar/config.json` and to start crossbar using it run
 `crossbar start --cbdir ./vendor/vinelab/minion/.crossbar`
 
-For more information on running crossbar head over to [Crossbar.io Quick Start](https://github.com/crossbario/crossbar/wiki/Quick-Start).
+To get started with Crossbar visit the [Quick Start with Crossbar.io Guide](https://github.com/Vinelab/minion/wiki/Quick-Start-with-Crossbar.io).
+
+For more information about crossbar head over to [Crossbar.io Quick Start](https://github.com/crossbario/crossbar/wiki/Quick-Start).
 
 ## Contributing
 Pull Requests are most welcome! Dev packages are specified in `composer.json` under `require-dev`
