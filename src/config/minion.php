@@ -46,6 +46,8 @@ return [
 
         // 'MyApp\Providers\MyAwesomeProvider',
 
-    ]
+    ],
+
+    'debug' => false,
 
 ];

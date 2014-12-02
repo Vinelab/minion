@@ -24,6 +24,7 @@ class Minion {
         'realm' => 'minion',
         'host'  => '127.0.0.1',
         'port'  => 9090,
+        'debug' => false,
     ];
 
     /**
@@ -76,7 +77,7 @@ class Minion {
         $client = $this->newClient();
         $client->addTransportProvider($this->newTransportProvider());
 
-        return $client->start();
+        return $client->start($this->getConfig('debug'));
     }
 
     /**

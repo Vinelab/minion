@@ -1,6 +1,8 @@
 <?php namespace Vinelab\Minion;
 
 use Closure;
+use Psr\Log\NullLogger;
+use Thruway\Logging\Logger;
 
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
@@ -43,6 +45,21 @@ class Client extends \Thruway\Peer\Client {
         $this->getManager()->setQuiet(true);
         // Boot up providers
         $this->bootProviders();
+    }
+
+    /**
+     * Start the transport
+     *
+     * @param boolean $startLoop
+     * @throws \Exception
+     */
+    public function start($debug = false, $startLoop = true)
+    {
+        if (! $debug) {
+            Logger::set(new NullLogger());
+        }
+
+        parent::start($startLoop);
     }
 
     /**
