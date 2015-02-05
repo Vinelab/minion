@@ -7,7 +7,7 @@ class Dictionary {
 
     public function __construct(array $attributes)
     {
-        $this->attributes = $attributes;
+        $this->dictionary = json_decode(json_encode($attributes));
     }
 
     /**
@@ -33,7 +33,7 @@ class Dictionary {
      */
     public function toArray()
     {
-        return $this->attributes;
+        return $this->dictionary;
     }
 
     /**
@@ -45,8 +45,8 @@ class Dictionary {
      */
     public function __get($attribute)
     {
-        if (isset($this->attributes[$attribute])) {
-            return $this->attributes[$attribute];
+        if (isset($this->dictionary[$attribute])) {
+            return $this->dictionary[$attribute];
         }
     }
 
@@ -59,6 +59,6 @@ class Dictionary {
      */
     public function __isset($attribute)
     {
-        return isset($this->attributes[$attribute]);
+        return isset($this->dictionary[$attribute]);
     }
 }
