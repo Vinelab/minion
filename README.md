@@ -92,6 +92,15 @@ providers and that is done by specifying a `protected $prefix = 'topic.prefix.';
 > It is a convention to use dot '.' separated prefixes such as `chat.` which will result in topic `read` end up being `chat.read`
 * Every provider class **must extend** `Vinelab\Minion\Provider` and implement `public function boot()` method
 which is the best place to have your registrations and pub/sub operations.
+* Every method **registered** or **subscribed** will receive the `$args` and `$data` when involved.
+    **Consider this method**
+    ```php
+    public function get($args, $data)
+    ```
+    * `$args` is the array of the args passed from the call
+    * `$data` is a `Dictionary` instance where you can safely access attributes like `$data->something` and when they
+    don't exist you get a `null` value instead of an error as in `StdClass` objects, though you may use the `$data`
+    variable as you would use any other object with `isset($data->prop)` and `empty($data->prop)`
 
 * `src/ChatProvider.php`
 ```php
@@ -111,11 +120,13 @@ class ChatProvider extends Provider
 
     public function sendMessage($args, $data)
     {
-        $message = $data['message'];
+        $message = $data->message;
+
         // store message in the database
-        // ...
+
         // tell everyone about it
         $this->publish('message', compact('message'));
+
         // response with the status
         return true;
     }
@@ -155,6 +166,8 @@ $m->register(function (Client $client) use ($add) {
     // subscribe
     $client->subscribe('some.topic', function ($data) {
         // do things with data
+        $data->key;
+        $data->other_key;
     });
 
     // publish

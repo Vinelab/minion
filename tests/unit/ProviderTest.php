@@ -5,7 +5,7 @@ use Mockery as M;
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
  */
-class ProvderTest extends UnitTestCase {
+class ProviderTest extends UnitTestCase {
 
     public function setUp()
     {
@@ -56,7 +56,7 @@ class ProvderTest extends UnitTestCase {
     {
         $session = M::mock('Thruway\ClientSession');
         $promise = M::mock('React\Promise\Promise');
-        $session->shouldReceive('subscribe')->once()->with('my.topic', [$this->provider, 'bra'], null)->andReturn($promise);
+        $session->shouldReceive('subscribe')->once()->with('my.topic', $this->getProxyCallbackMock(), null)->andReturn($promise);
 
         $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
 
@@ -70,8 +70,9 @@ class ProvderTest extends UnitTestCase {
     {
         $session = M::mock('Thruway\ClientSession');
         $promise = M::mock('React\Promise\Promise');
+
         $session->shouldReceive('subscribe')->once()
-            ->with('my.topic', [$this->provider, 'bra'], ['option', 'option0'])
+            ->with('my.topic', $this->getProxyCallbackMock(), ['option', 'option0'])
             ->andReturn($promise);
 
         $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
@@ -85,10 +86,9 @@ class ProvderTest extends UnitTestCase {
     public function test_subscribing_with_closure()
     {
         $session = M::mock('Thruway\ClientSession');
-        $callMe = function () { return true; };
-
         $promise = M::mock('React\Promise\Promise');
-        $session->shouldReceive('subscribe')->once()->with('my.topic', $callMe, ['option', 'option0'])->andReturn($promise);
+        $callMe = function () { return true; };
+        $session->shouldReceive('subscribe')->once()->with('my.topic', $this->getProxyCallbackMock(), ['option', 'option0'])->andReturn($promise);
 
         $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
 
@@ -102,7 +102,7 @@ class ProvderTest extends UnitTestCase {
     {
         $session = M::mock('Thruway\ClientSession');
         $promise = M::mock('React\Promise\Promise');
-        $session->shouldReceive('subscribe')->once()->with('my.topic', 'whateva', ['option', 'option0'])->andReturn($promise);
+        $session->shouldReceive('subscribe')->once()->with('my.topic', $this->getProxyCallbackMock(), ['option', 'option0'])->andReturn($promise);
 
         $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
 
@@ -118,7 +118,7 @@ class ProvderTest extends UnitTestCase {
         $session = M::mock('Thruway\ClientSession');
         $promise = M::mock('React\Promise\Promise');
         $session->shouldReceive('subscribe')->once()
-            ->with('test.test.test.prefix.my.topic', 'whateva', ['option', 'option0'])
+            ->with('test.test.test.prefix.my.topic', $this->getProxyCallbackMock(), ['option', 'option0'])
             ->andReturn($promise);
 
         $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
@@ -193,7 +193,7 @@ class ProvderTest extends UnitTestCase {
 
         $callee = M::mock('Thruway\Role\Callee');
         $promise = M::mock('React\Promise\Promise');
-        $callee->shouldReceive('register')->once()->with($session, 'reg.topic', [$this->provider, 'bra'], null)->andReturn($promise);
+        $callee->shouldReceive('register')->once()->with($session, 'reg.topic', $this->getProxyCallbackMock(), null)->andReturn($promise);
         $this->client->shouldReceive('getCallee')->once()->withNoArgs()->andReturn($callee);
 
         $register = $this->unProtectMethod('register', $this->provider);
@@ -205,14 +205,14 @@ class ProvderTest extends UnitTestCase {
     public function test_registering_with_closure()
     {
         $session = M::mock('Thruway\ClientSession');
-        $callMe = function () { return true; };
         $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
 
         $callee = M::mock('Thruway\Role\Callee');
         $promise = M::mock('React\Promise\Promise');
-        $callee->shouldReceive('register')->once()->with($session, 'reg.topic', $callMe, null)->andReturn($promise);
+        $callee->shouldReceive('register')->once()->with($session, 'reg.topic', $this->getProxyCallbackMock(), null)->andReturn($promise);
         $this->client->shouldReceive('getCallee')->once()->withNoArgs()->andReturn($callee);
 
+        $callMe = function () { return true; };
         $register = $this->unProtectMethod('register', $this->provider);
         $got = $register->invokeArgs($this->provider, ['reg.topic', $callMe]);
 
@@ -227,7 +227,7 @@ class ProvderTest extends UnitTestCase {
         $callee = M::mock('Thruway\Role\Callee');
         $promise = M::mock('React\Promise\Promise');
         $callee->shouldReceive('register')->once()
-            ->with($session, 'reg.topic', [$this->provider, 'bra'], ['option', 'option0'])
+            ->with($session, 'reg.topic', $this->getProxyCallbackMock(), ['option', 'option0'])
             ->andReturn($promise);
 
         $this->client->shouldReceive('getCallee')->once()->withNoArgs()->andReturn($callee);
@@ -245,7 +245,7 @@ class ProvderTest extends UnitTestCase {
 
         $callee = M::mock('Thruway\Role\Callee');
         $promise = M::mock('React\Promise\Promise');
-        $callee->shouldReceive('register')->once()->with($session, 'reg.topic', 'bra', ['option', 'option0'])->andReturn($promise);
+        $callee->shouldReceive('register')->once()->with($session, 'reg.topic', $this->getProxyCallbackMock(), ['option', 'option0'])->andReturn($promise);
         $this->client->shouldReceive('getCallee')->once()->withNoArgs()->andReturn($callee);
 
         $register = $this->unProtectMethod('register', $this->provider);
@@ -264,7 +264,7 @@ class ProvderTest extends UnitTestCase {
         $callee = M::mock('Thruway\Role\Callee');
         $promise = M::mock('React\Promise\Promise');
         $callee->shouldReceive('register')->once()
-            ->with($session, 'test.test.reg.prefix.reg.topic', 'bra', ['option', 'option0'])
+            ->with($session, 'test.test.reg.prefix.reg.topic', M::type('Closure'), ['option', 'option0'])
             ->andReturn($promise);
 
         $this->client->shouldReceive('getCallee')->once()->withNoArgs()->andReturn($callee);
@@ -330,6 +330,21 @@ class ProvderTest extends UnitTestCase {
         $got = $call->invokeArgs($this->provider, [$topic, $arguments, $argumentsKw, $options]);
 
         $this->assertEquals($got, $promise);
+    }
+
+    protected function getProxyCallbackMock()
+    {
+        return M::on(function ($proxy) {
+            $this->assertTrue(is_callable($proxy));
+
+            $reflection = new ReflectionFunction($proxy);
+            $params  = $reflection->getParameters();
+
+            $this->assertEquals('args', $params[0]->name);
+            $this->assertEquals('kwArgs', $params[1]->name);
+
+            return true;
+        });
     }
 }
 

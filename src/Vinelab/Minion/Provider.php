@@ -87,11 +87,11 @@ abstract class Provider {
      */
     protected function subscribe($topic, $callback, $options = null, $isFunction = false)
     {
-        if (is_string($callback) && ! $isFunction) {
-            $callback = [$this, $callback];
-        }
-
-        return $this->getSession()->subscribe($this->prepareTopic($topic), $callback, $options);
+        return $this->getSession()->subscribe(
+            $this->prepareTopic($topic),
+            $this->wrapWithProxy($callback, $isFunction),
+            $options
+        );
     }
 
     /**
@@ -121,11 +121,12 @@ abstract class Provider {
      */
     protected function register($topic, $callback, $options = null, $isFunction = false)
     {
-        if (is_string($callback) && ! $isFunction) {
-            $callback = [$this, $callback];
-        }
-
-        return $this->getCallee()->register($this->getSession(), $this->prepareTopic($topic), $callback, $options);
+        return $this->getCallee()->register(
+            $this->getSession(),
+            $this->prepareTopic($topic),
+            $this->wrapWithProxy($callback, $isFunction),
+            $options
+        );
     }
 
     /**
@@ -176,5 +177,29 @@ abstract class Provider {
     public function getTopicPrefix()
     {
         return $this->prefix;
+    }
+
+    /**
+     * Wrap the given callback with a proxy Closure.
+     * The reason we use this is to be able to format the given $data into a Dictionary
+     * which makes it safer to work with them.
+     *
+     * @param  mixed $callback
+     * @param  boolean $isFunction
+     *
+     * @return Closure
+     */
+    public function wrapWithProxy($callback, $isFunction = false)
+    {
+        // We will wrap the callback with a Closure so that we can format the kwArgs that we receive
+        // into our proprietary Dictionary instance to make things safer.
+        return function ($args, $kwArgs) use($callback, $isFunction) {
+
+            if (is_string($callback) && ! $isFunction) {
+                $callback = [$this, $callback];
+            }
+
+            return call_user_func_array($callback, [$args, Dictionary::make($kwArgs)]);
+        };
     }
 }
