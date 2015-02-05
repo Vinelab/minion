@@ -45,8 +45,8 @@ class Dictionary {
      */
     public function __get($attribute)
     {
-        if (isset($this->dictionary[$attribute])) {
-            return $this->dictionary[$attribute];
+        if (isset($this->dictionary->$attribute)) {
+            return $this->dictionary->$attribute;
         }
     }
 
@@ -59,6 +59,6 @@ class Dictionary {
      */
     public function __isset($attribute)
     {
-        return isset($this->dictionary[$attribute]);
+        return isset($this->dictionary->$attribute);
     }
 }
