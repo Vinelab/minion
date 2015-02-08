@@ -33,7 +33,32 @@ class Dictionary {
      */
     public function toArray()
     {
-        return $this->dictionary;
+        return $this->toKeyValue((array) $this->dictionary);
+    }
+
+    /**
+     * Transform the given array of values into a key-value pair recursively.
+     *
+     * @param  array  $values
+     *
+     * @return array
+     */
+    public function toKeyValue(array $values)
+    {
+        $result = [];
+
+        foreach ($values as $key => $value)
+        {
+            if (is_array($value)) {
+                $result[$key] = $this->toKeyValue($value);
+            } elseif (is_object($value)) {
+                $result[$key] = $this->toKeyValue((array) $value);
+            } else {
+                $result[$key] = $value;
+            }
+        }
+
+        return $result;
     }
 
     /**
