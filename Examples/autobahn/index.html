@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Minion | Autobahn|JS</title>
+    </head>
+
+    <body>
+
+
+        <script type="text/javascript" src="/autobahn/autobahn.js"></script>
+        <script type="text/javascript">
+            function whatVersion(data)
+            {
+                console.log('Got version', data.version);
+            }
+            function asked(what)
+            {
+                console.debug('They know we asked!!!!', what);
+            }
+        </script>
+        <script type="text/javascript">
+            var connection = new autobahn.Connection({
+                url: 'ws://127.0.0.1:9090/',
+                realm: 'minion'
+            });
+
+            connection.onopen = function (session) {
+                console.log('Connection is now open');
+
+                session.subscribe('com.example.asked', asked);
+                session.call('com.example.getphpversion').then(
+                    function (data) {
+                        console.log('PHP Version:', data);
+                    },
+                    function (error) {
+                        console.log('ERROR!', error);
+                    }
+                );
+            };
+
+            connection.open();
+        </script>
+    </body>
+</html>

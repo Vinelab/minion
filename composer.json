@@ -26,7 +26,8 @@
             "Vinelab\\Minion": "src/"
         },
         "classmap": [
-            "tests/UnitTestCase.php"
+            "tests/UnitTestCase.php",
+            "Examples/basic"
         ]
     },
     "bin": ["minion"],

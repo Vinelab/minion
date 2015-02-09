@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Minion | Wampy.js</title>
+    </head>
+    <body>
+
+        <script src="/wampy/wampy.js" type="text/javascript"></script>
+
+        <script type="text/javascript">
+
+            function whatVersion(data)
+            {
+                console.log('Got version', data.version);
+            }
+
+            function asked(what)
+            {
+                console.debug('They know we asked!!!!', what);
+            }
+
+            window.connection = new Wampy('localhost:9090', {realm: 'minion'});
+            window.connection.subscribe('com.example.asked', asked);
+            window.connection.call('com.example.getphpversion', null, {
+                onSuccess: function(version) {
+                    console.log('PHP Version', version);
+                },
+                onError: function(err) {
+                    console.error('An error occured', err);
+                }
+           });
+
+        </script>
+    </body>
+</html>
