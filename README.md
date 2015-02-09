@@ -10,6 +10,7 @@ and flexibility of running `minion run` and get a client running in no time. In 
 your application. See [How It Works](#how-it-works) for details.
 
 For a jump-start head over to the [Quick Start Guide](https://github.com/Vinelab/minion/wiki/Quick-Start-with-Crossbar.io) or read on for detailed docs.
+Or you may take a look at the [Examples](https://github.com/Vinelab/minion/tree/master/Examples) to get an idea about how this works.
 
 ## Installation
 
