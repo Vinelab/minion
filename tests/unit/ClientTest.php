@@ -15,6 +15,11 @@ class ClientTest extends UnitTestCase {
         $this->client = M::mock(new Client('i.the.divine', []));
     }
 
+    public function tearDown()
+    {
+        M::close();
+    }
+
     public function test_initializing_sets_providers()
     {
         $providers = ['prov1', 'prov2'] ;
@@ -63,15 +68,15 @@ class ClientTest extends UnitTestCase {
             ->with('my.topic', $this->getProxyCallbackMock(), null)
             ->andReturn($promise);
 
-        $this->client->shouldReceive('getSession')
+        $client = M::mock('Vinelab\Minion\Client')->makePartial();
+        $client->shouldReceive('getSession')
             ->once()
             ->withNoArgs()
             ->andReturn($session);
 
-        $subscribe = $this->unProtectMethod('subscribe', $this->client);
-        $got = $subscribe->invokeArgs($this->client, ['my.topic', 'bra']);
+        $got = $client->subscribe('my.topic', 'bra');
 
-        $this->assertEquals($got, $promise);
+        $this->assertEquals($promise, $got);
     }
 
     public function test_subscribing_with_options()
@@ -83,10 +88,10 @@ class ClientTest extends UnitTestCase {
             ->with('my.topic', $this->getProxyCallbackMock(), ['option', 'option0'])
             ->andReturn($promise);
 
-        $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
+        $client = M::mock('Vinelab\Minion\Client')->makePartial();
+        $client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
 
-        $subscribe = $this->unProtectMethod('subscribe', $this->client);
-        $got = $subscribe->invokeArgs($this->client, ['my.topic', 'bra', ['option', 'option0']]);
+        $got = $client->subscribe('my.topic', 'bra', ['option', 'option0']);
 
         $this->assertEquals($promise, $got);
     }
@@ -94,7 +99,6 @@ class ClientTest extends UnitTestCase {
     public function test_registering_with_options()
     {
         $session = M::mock('Thruway\ClientSession');
-        $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
 
         $callee = M::mock('Thruway\Role\Callee');
         $promise = M::mock('React\Promise\Promise');
@@ -102,36 +106,39 @@ class ClientTest extends UnitTestCase {
             ->with($session, 'reg.topic', $this->getProxyCallbackMock(), ['option', 'option0'])
             ->andReturn($promise);
 
-        $this->client->shouldReceive('getCallee')->once()->withNoArgs()->andReturn($callee);
+        $client = M::mock('Vinelab\Minion\Client')->makePartial();
+        $client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
+        $client->shouldReceive('getCallee')->once()->withNoArgs()->andReturn($callee);
 
-        $register = $this->unProtectMethod('register', $this->client);
-        $got = $register->invokeArgs($this->client, ['reg.topic', 'bra', ['option', 'option0']]);
+        $got = $client->register('reg.topic', 'bra', ['option', 'option0']);
 
-        $this->assertEquals($got, $promise);
+        $this->assertEquals($promise, $got);
     }
 
     public function test_registering_with_function()
     {
         $session = M::mock('Thruway\ClientSession');
-        $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
 
         $callee = M::mock('Thruway\Role\Callee');
         $promise = M::mock('React\Promise\Promise');
-        $callee->shouldReceive('register')->once()->with($session, 'reg.topic', $this->getProxyCallbackMock(), ['option', 'option0'])->andReturn($promise);
-        $this->client->shouldReceive('getCallee')->once()->withNoArgs()->andReturn($callee);
+        $callee->shouldReceive('register')
+            ->once()
+            ->with($session, 'reg.topic', $this->getProxyCallbackMock(), ['option', 'option0'])
+            ->andReturn($promise);
 
-        $register = $this->unProtectMethod('register', $this->client);
-        $got = $register->invokeArgs($this->client, ['reg.topic', 'bra', ['option', 'option0'], true]);
+        $client = M::mock('Vinelab\Minion\Client')->makePartial();
+        $client->shouldReceive('getCallee')->once()->withNoArgs()->andReturn($callee);
+        $client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
 
-        $this->assertEquals($got, $promise);
+        $got = $client->register('reg.topic', 'bra', ['option', 'option0']);
+
+        $this->assertEquals($promise, $got);
     }
 
     public function test_registering_prepares_topic()
     {
-        $this->client->setTopicPrefix('test.test.reg.prefix.');
 
         $session = M::mock('Thruway\ClientSession');
-        $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
 
         $callee = M::mock('Thruway\Role\Callee');
         $promise = M::mock('React\Promise\Promise');
@@ -139,12 +146,14 @@ class ClientTest extends UnitTestCase {
             ->with($session, 'test.test.reg.prefix.reg.topic', M::type('Closure'), ['option', 'option0'])
             ->andReturn($promise);
 
-        $this->client->shouldReceive('getCallee')->once()->withNoArgs()->andReturn($callee);
+        $client = M::mock('Vinelab\Minion\Client')->makePartial();
+        $client->setTopicPrefix('test.test.reg.prefix.');
+        $client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
+        $client->shouldReceive('getCallee')->once()->withNoArgs()->andReturn($callee);
 
-        $register = $this->unProtectMethod('register', $this->client);
-        $got = $register->invokeArgs($this->client, ['reg.topic', 'bra', ['option', 'option0'], true]);
+        $got = $client->register('reg.topic', 'bra', ['option', 'option0']);
 
-        $this->assertEquals($got, $promise);
+        $this->assertEquals($promise, $got);
     }
 
     public function test_calling_simple()
@@ -155,12 +164,12 @@ class ClientTest extends UnitTestCase {
             ->with('pub.topic', ['dddddata' => 'hhhhhere'], null, null)
             ->andReturn($promise);
 
-        $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
+        $client = M::mock('Vinelab\Minion\Client')->makePartial();
+        $client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
 
-        $call = $this->unProtectMethod('call', $this->client);
-        $got = $call->invokeArgs($this->client, ['pub.topic', ['dddddata' => 'hhhhhere']]);
+        $got = $client->call('pub.topic', ['dddddata' => 'hhhhhere']);
 
-        $this->assertEquals($got, $promise);
+        $this->assertEquals($promise, $got);
     }
 
     public function test_calling_full()
@@ -174,12 +183,12 @@ class ClientTest extends UnitTestCase {
         $promise = M::mock('React\Promise\Promise');
         $session->shouldReceive('call')->once()->with($topic, $arguments, $argumentsKw, $options)->andReturn($promise);
 
-        $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
+        $client = M::mock('Vinelab\Minion\Client')->makePartial();
+        $client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
 
-        $call = $this->unProtectMethod('call', $this->client);
-        $got = $call->invokeArgs($this->client, [$topic, $arguments, $argumentsKw, $options]);
+        $got = $client->call($topic, $arguments, $argumentsKw, $options);
 
-        $this->assertEquals($got, $promise);
+        $this->assertEquals($promise, $got);
     }
 
     public function test_calling_prepares_topic()
@@ -190,51 +199,60 @@ class ClientTest extends UnitTestCase {
         $argumentsKw = ['arg1', 'argw'];
         $options     = ['some', 'options', 'heeere'];
 
-        $this->client->setTopicPrefix('test.test.pub.test.');
 
         $session = M::mock('Thruway\ClientSession');
         $promise = M::mock('React\Promise\Promise');
         $session->shouldReceive('call')->once()->with($prefixed, $arguments, $argumentsKw, $options)->andReturn($promise);
 
-        $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
+        $client = M::mock('Vinelab\Minion\Client')->makePartial();
+        $client->setTopicPrefix('test.test.pub.test.');
+        $client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
 
-        $call = $this->unProtectMethod('call', $this->client);
-        $got = $call->invokeArgs($this->client, [$topic, $arguments, $argumentsKw, $options]);
+        $got = $client->call($topic, $arguments, $argumentsKw, $options);
 
-        $this->assertEquals($got, $promise);
+        $this->assertEquals($promise, $got);
     }
 
     public function test_registering_with_provider_method()
     {
         $session = M::mock('Thruway\ClientSession');
-        $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
 
         $callee = M::mock('Thruway\Role\Callee');
         $promise = M::mock('React\Promise\Promise');
-        $callee->shouldReceive('register')->once()->with($session, 'reg.topic', $this->getProxyCallbackMock(), null)->andReturn($promise);
-        $this->client->shouldReceive('getCallee')->once()->withNoArgs()->andReturn($callee);
+        $callee->shouldReceive('register')
+            ->once()
+            ->with($session, 'reg.topic', $this->getProxyCallbackMock(), null)
+            ->andReturn($promise);
 
-        $register = $this->unProtectMethod('register', $this->client);
-        $got = $register->invokeArgs($this->client, ['reg.topic', 'bra']);
+        $client = M::mock('Vinelab\Minion\Client')->makePartial();
+        $client->shouldReceive('getSession')->withNoArgs()->andReturn($session);
+        $client->shouldReceive('getCallee')->once()->withNoArgs()->andReturn($callee);
 
-        $this->assertEquals($got, $promise);
+        $got = $client->register('reg.topic', 'bra');
+
+        $this->assertEquals($promise, $got);
     }
 
     public function test_registering_with_closure()
     {
         $session = M::mock('Thruway\ClientSession');
-        $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
 
         $callee = M::mock('Thruway\Role\Callee');
         $promise = M::mock('React\Promise\Promise');
-        $callee->shouldReceive('register')->once()->with($session, 'reg.topic', $this->getProxyCallbackMock(), null)->andReturn($promise);
-        $this->client->shouldReceive('getCallee')->once()->withNoArgs()->andReturn($callee);
+        $callee->shouldReceive('register')
+            ->once()
+            ->with($session, 'reg.topic', $this->getProxyCallbackMock(), null)
+            ->andReturn($promise);
+
+        $client = M::mock('Vinelab\Minion\Client')->makePartial();
+        $client->shouldReceive('getCallee')->once()->withNoArgs()->andReturn($callee);
+        $client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
 
         $callMe = function () { return true; };
-        $register = $this->unProtectMethod('register', $this->client);
-        $got = $register->invokeArgs($this->client, ['reg.topic', $callMe]);
 
-        $this->assertEquals($got, $promise);
+        $got = $client->register('reg.topic', $callMe);
+
+        $this->assertEquals($promise, $got);
     }
 
     public function test_publishing_prepares_topic()
@@ -245,18 +263,18 @@ class ClientTest extends UnitTestCase {
         $argumentsKw = ['arg1', 'argw'];
         $options     = ['some', 'options', 'heeere'];
 
-        $this->client->setTopicPrefix('test.test.pub.test.');
 
         $session = M::mock('Thruway\ClientSession');
         $promise = M::mock('React\Promise\Promise');
         $session->shouldReceive('publish')->once()->with($prefixed, $arguments, $argumentsKw, $options)->andReturn($promise);
 
-        $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
+        $client = M::mock('Vinelab\Minion\Client')->makePartial();
+        $client->setTopicPrefix('test.test.pub.test.');
+        $client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
 
-        $publish = $this->unProtectMethod('publish', $this->client);
-        $got = $publish->invokeArgs($this->client, [$topic, $arguments, $argumentsKw, $options]);
+        $got = $client->publish($topic, $arguments, $argumentsKw, $options);
 
-        $this->assertEquals($got, $promise);
+        $this->assertEquals($promise, $got);
     }
 
     public function test_publishing_simple()
@@ -267,29 +285,29 @@ class ClientTest extends UnitTestCase {
             ->with('pub.topic', ['dddddata' => 'hhhhhere'], null, null)
             ->andReturn($promise);
 
-        $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
+        $client = M::mock('Vinelab\Minion\Client')->makePartial();
+        $client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
 
-        $publish = $this->unProtectMethod('publish', $this->client);
-        $got = $publish->invokeArgs($this->client, ['pub.topic', ['dddddata' => 'hhhhhere']]);
+        $got = $client->publish('pub.topic', ['dddddata' => 'hhhhhere']);
 
-        $this->assertEquals($got, $promise);
+        $this->assertEquals($promise, $got);
     }
 
     public function test_subscribing_prepares_topic()
     {
-        $this->client->setTopicPrefix('test.test.test.prefix.');
         $session = M::mock('Thruway\ClientSession');
         $promise = M::mock('React\Promise\Promise');
         $session->shouldReceive('subscribe')->once()
             ->with('test.test.test.prefix.my.topic', $this->getProxyCallbackMock(), ['option', 'option0'])
             ->andReturn($promise);
 
-        $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
+        $client = M::mock('Vinelab\Minion\Client')->makePartial();
+        $client->setTopicPrefix('test.test.test.prefix.');
+        $client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
 
-        $subscribe = $this->unProtectMethod('subscribe', $this->client);
-        $got = $subscribe->invokeArgs($this->client, ['my.topic', 'whateva', ['option', 'option0'], true]);
+        $got = $client->subscribe('my.topic', 'whateva', ['option', 'option0']);
 
-        $this->assertEquals($got, $promise);
+        $this->assertEquals($promise, $got);
     }
 
     public function test_subscribing_with_function()
@@ -298,12 +316,12 @@ class ClientTest extends UnitTestCase {
         $promise = M::mock('React\Promise\Promise');
         $session->shouldReceive('subscribe')->once()->with('my.topic', $this->getProxyCallbackMock(), ['option', 'option0'])->andReturn($promise);
 
-        $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
+        $client = M::mock('Vinelab\Minion\Client')->makePartial();
+        $client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
 
-        $subscribe = $this->unProtectMethod('subscribe', $this->client);
-        $got = $subscribe->invokeArgs($this->client, ['my.topic', 'whateva', ['option', 'option0'], true]);
+        $got = $client->subscribe('my.topic', 'whateva', ['option', 'option0']);
 
-        $this->assertEquals($got, $promise);
+        $this->assertEquals($promise, $got);
     }
 
     public function test_subscribing_with_closure()
@@ -313,12 +331,12 @@ class ClientTest extends UnitTestCase {
         $callMe = function () { return true; };
         $session->shouldReceive('subscribe')->once()->with('my.topic', $this->getProxyCallbackMock(), ['option', 'option0'])->andReturn($promise);
 
-        $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
+        $client = M::mock('Vinelab\Minion\Client')->makePartial();
+        $client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
 
-        $subscribe = $this->unProtectMethod('subscribe', $this->client);
-        $got = $subscribe->invokeArgs($this->client, ['my.topic', $callMe, ['option', 'option0']]);
+        $got = $client->subscribe('my.topic', $callMe, ['option', 'option0']);
 
-        $this->assertEquals($got, $promise);
+        $this->assertEquals($promise, $got);
     }
 
     public function test_publishing_full()
@@ -332,12 +350,12 @@ class ClientTest extends UnitTestCase {
         $promise = M::mock('React\Promise\Promise');
         $session->shouldReceive('publish')->once()->with($topic, $arguments, $argumentsKw, $options)->andReturn($promise);
 
-        $this->client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
+        $client = M::mock('Vinelab\Minion\Client')->makePartial();
+        $client->shouldReceive('getSession')->once()->withNoArgs()->andReturn($session);
 
-        $publish = $this->unProtectMethod('publish', $this->client);
-        $got = $publish->invokeArgs($this->client, [$topic, $arguments, $argumentsKw, $options]);
+        $got = $client->publish($topic, $arguments, $argumentsKw, $options);
 
-        $this->assertEquals($got, $promise);
+        $this->assertEquals($promise, $got);
     }
 
     protected function getProxyCallbackMock()

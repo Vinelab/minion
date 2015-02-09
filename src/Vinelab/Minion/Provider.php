@@ -19,6 +19,7 @@ abstract class Provider {
      */
     public function __construct($client)
     {
+        $client->setDelegateProvider($this);
         $client->setTopicPrefix($this->prefix);
 
         $this->setClient($client);

@@ -3,13 +3,26 @@
 use Closure;
 use Psr\Log\NullLogger;
 use Thruway\Logging\Logger;
+use Vinelab\Minion\Provider;
 
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
  */
 class Client extends \Thruway\Peer\Client {
 
+    /**
+     * The prefix to use when generating topics/
+     *
+     * @var string
+     */
     protected $topicPrefix = '';
+
+    /**
+     * The delegate provider instance.
+     *
+     * @var \Vinelab\Minion\Provider
+     */
+    protected $delegateProvider;
 
     /**
      * The registered providers.
@@ -198,6 +211,28 @@ class Client extends \Thruway\Peer\Client {
     }
 
     /**
+     * Set the delegate provider of this client.
+     *
+     * @param \Vinelab\Minion\Provider $provider
+     *
+     * @return void
+     */
+    public function setDelegateProvider(Provider $provider)
+    {
+        $this->delegateProvider = $provider;
+    }
+
+    /**
+     * Get the delegate provider of this client.
+     *
+     * @return \Vinelab\Minion\Provider
+     */
+    public function getDelegateProvider()
+    {
+        return $this->delegateProvider;
+    }
+
+    /**
      * Wrap the given callback with a proxy Closure.
      * The reason we use this is to be able to format the given $data into a Dictionary
      * which makes it safer to work with them.
@@ -213,8 +248,8 @@ class Client extends \Thruway\Peer\Client {
         // into our proprietary Dictionary instance to make things safer.
         return function ($args, $kwArgs) use($callback, $isFunction) {
 
-            if (is_string($callback) && ! $isFunction) {
-                $callback = [$this, $callback];
+            if (is_string($callback) && ! $isFunction && $this->getDelegateProvider() instanceof Provider) {
+                $callback = [$this->getDelegateProvider(), $callback];
             }
 
             return call_user_func_array($callback, [$args, Dictionary::make($kwArgs)]);
