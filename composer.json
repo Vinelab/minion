@@ -12,8 +12,8 @@
     "require": {
         "php": ">=5.4.0",
         "voryx/thruway": "0.2.*",
-        "illuminate/support": "4.2.*",
-        "illuminate/console": "4.2.*"
+        "illuminate/support": "5.*",
+        "illuminate/console": "5.*"
     },
     "require-dev": {
         "phpunit/phpunit": "4.*",
