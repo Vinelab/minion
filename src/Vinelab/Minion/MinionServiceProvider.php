@@ -22,7 +22,9 @@ class MinionServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-
+        $this->publishes([
+            __DIR__.'/../../config/minion.php' => config_path('minion.php')
+        ]);
     }
 
     /**
