@@ -113,7 +113,7 @@ class RunCommand extends Command {
     public function getConfiguration()
     {
         if ($this->isLaravel) {
-            return \Config::get('minion::minion');
+            return \Config::get('minion');
         }
 
         return [];
