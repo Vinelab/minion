@@ -25,7 +25,7 @@ Then run `composer update` to install.
 * Add `Vinelab\Minion\MinionServiceProvider` to the `providers` array in your `app.php` and you'll have a `Minion`
 facade available throught your project.
 * The command line tool is available through artisan as `php artisan minion:run` see [CLI](#cli)
-* Run `php artisan config:publish vinelab/minion` and head to `app/config/packages/vinelab/minion/minion.php` to configure your minion.
+* Run `php artisan vendor:publish` and head to `app/config/minion.php` to configure your minion.
 
 ## Configuration
 Configure the connection parameters you want your client to use when it connects to a WAMP router.
