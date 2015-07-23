@@ -6,8 +6,8 @@ use Vinelab\Minion\Client;
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
  */
-class ClientTest extends UnitTestCase {
-
+class ClientTest extends UnitTestCase
+{
     public function setUp()
     {
         parent::setUp();
@@ -22,7 +22,7 @@ class ClientTest extends UnitTestCase {
 
     public function test_initializing_sets_providers()
     {
-        $providers = ['prov1', 'prov2'] ;
+        $providers = ['prov1', 'prov2'];
         $c = new Client('julia.dream', $providers);
         $this->assertEquals($providers, $c->getProviders());
     }
@@ -35,7 +35,7 @@ class ClientTest extends UnitTestCase {
             $called['bootMe'] = $client;
         };
 
-        $andMe = function ($client)  use (&$called) {
+        $andMe = function ($client) use (&$called) {
             $called['andMe'] = $client;
         };
 
@@ -137,7 +137,6 @@ class ClientTest extends UnitTestCase {
 
     public function test_registering_prepares_topic()
     {
-
         $session = M::mock('Thruway\ClientSession');
 
         $callee = M::mock('Thruway\Role\Callee');
@@ -174,10 +173,10 @@ class ClientTest extends UnitTestCase {
 
     public function test_calling_full()
     {
-        $topic       = 'pub.topic';
-        $arguments   = ['dddddata' => 'hhhhhere'];
+        $topic = 'pub.topic';
+        $arguments = ['dddddata' => 'hhhhhere'];
         $argumentsKw = ['arg1', 'argw'];
-        $options     = ['some', 'options', 'heeere'];
+        $options = ['some', 'options', 'heeere'];
 
         $session = M::mock('Thruway\ClientSession');
         $promise = M::mock('React\Promise\Promise');
@@ -193,12 +192,11 @@ class ClientTest extends UnitTestCase {
 
     public function test_calling_prepares_topic()
     {
-        $topic       = 'pub.topic';
-        $prefixed    = 'test.test.pub.test.pub.topic';
-        $arguments   = ['dddddata' => 'hhhhhere'];
+        $topic = 'pub.topic';
+        $prefixed = 'test.test.pub.test.pub.topic';
+        $arguments = ['dddddata' => 'hhhhhere'];
         $argumentsKw = ['arg1', 'argw'];
-        $options     = ['some', 'options', 'heeere'];
-
+        $options = ['some', 'options', 'heeere'];
 
         $session = M::mock('Thruway\ClientSession');
         $promise = M::mock('React\Promise\Promise');
@@ -257,12 +255,11 @@ class ClientTest extends UnitTestCase {
 
     public function test_publishing_prepares_topic()
     {
-        $topic       = 'pub.topic';
-        $prefixed    = 'test.test.pub.test.pub.topic';
-        $arguments   = ['dddddata' => 'hhhhhere'];
+        $topic = 'pub.topic';
+        $prefixed = 'test.test.pub.test.pub.topic';
+        $arguments = ['dddddata' => 'hhhhhere'];
         $argumentsKw = ['arg1', 'argw'];
-        $options     = ['some', 'options', 'heeere'];
-
+        $options = ['some', 'options', 'heeere'];
 
         $session = M::mock('Thruway\ClientSession');
         $promise = M::mock('React\Promise\Promise');
@@ -341,10 +338,10 @@ class ClientTest extends UnitTestCase {
 
     public function test_publishing_full()
     {
-        $topic       = 'pub.topic';
-        $arguments   = ['dddddata' => 'hhhhhere'];
+        $topic = 'pub.topic';
+        $arguments = ['dddddata' => 'hhhhhere'];
         $argumentsKw = ['arg1', 'argw'];
-        $options     = ['some', 'options', 'heeere'];
+        $options = ['some', 'options', 'heeere'];
 
         $session = M::mock('Thruway\ClientSession');
         $promise = M::mock('React\Promise\Promise');
@@ -364,7 +361,7 @@ class ClientTest extends UnitTestCase {
             $this->assertTrue(is_callable($proxy));
 
             $reflection = new ReflectionFunction($proxy);
-            $params  = $reflection->getParameters();
+            $params = $reflection->getParameters();
 
             $this->assertEquals('args', $params[0]->name);
             $this->assertEquals('kwArgs', $params[1]->name);
@@ -374,9 +371,8 @@ class ClientTest extends UnitTestCase {
     }
 }
 
-
-class ClientTestProviderStub extends PHPUnit_Framework_TestCase {
-
+class ClientTestProviderStub extends PHPUnit_Framework_TestCase
+{
     public function __construct($client)
     {
         $this->assertInstanceOf('Vinelab\Minion\Client', $client);

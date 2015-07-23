@@ -1,4 +1,6 @@
-<?php namespace Vinelab\Minion\Console;
+<?php
+
+namespace Vinelab\Minion\Console;
 
 use Vinelab\Minion\Console\Commands\RunCommand;
 use Symfony\Component\Console\Application as BaseApplication;
@@ -6,8 +8,8 @@ use Symfony\Component\Console\Application as BaseApplication;
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
  */
-class Application extends BaseApplication {
-
+class Application extends BaseApplication
+{
     /**
      * Constructor.
      */
@@ -28,7 +30,7 @@ class Application extends BaseApplication {
     public function getLongVersion()
     {
         $version = parent::getLongVersion().' by <comment>Vinelab</comment>';
-        $commit  = '@git-commit@';
+        $commit = '@git-commit@';
 
         if ('@'.'git-commit@' !== $commit) {
             $version .= ' ('.substr($commit, 0, 7).')';

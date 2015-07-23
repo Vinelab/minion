@@ -1,4 +1,6 @@
-<?php namespace Vinelab\Minion\Console\Commands;
+<?php
+
+namespace Vinelab\Minion\Console\Commands;
 
 use Vinelab\Minion\Minion;
 use Illuminate\Console\Command;
@@ -7,8 +9,8 @@ use Symfony\Component\Console\Input\InputOption;
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
  */
-class RunCommand extends Command {
-
+class RunCommand extends Command
+{
     /**
      * The console command name.
      *
@@ -34,6 +36,7 @@ class RunCommand extends Command {
      * The available command options.
      *
      * @var array
+     *
      * @since 1.3.0
      */
     protected $options = array(
@@ -80,7 +83,7 @@ class RunCommand extends Command {
             }
         }
 
-        if (isset($options['providers']) && ! empty($options['providers'])) {
+        if (isset($options['providers']) && !empty($options['providers'])) {
             foreach ($options['providers'] as $provider) {
                 $m->register($provider);
             }

@@ -1,4 +1,6 @@
-<?php namespace Vinelab\Minion;
+<?php
+
+namespace Vinelab\Minion;
 
 use Closure;
 use Thruway\Transport\PawlTransportProvider;
@@ -6,8 +8,8 @@ use Thruway\Transport\PawlTransportProvider;
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
  */
-class Minion {
-
+class Minion
+{
     /**
      * Hold the registered providers.
      *
@@ -22,8 +24,8 @@ class Minion {
      */
     private $config = [
         'realm' => 'minion',
-        'host'  => '127.0.0.1',
-        'port'  => 9090,
+        'host' => '127.0.0.1',
+        'port' => 9090,
         'debug' => false,
     ];
 
@@ -31,19 +33,17 @@ class Minion {
      * Register the given provider.
      *
      * @param Closure|string $provider
-     *
-     * @return void
      */
     public function register($provider)
     {
         // When we receive a string we consider it to be a provider, if not we throw them away!
-        if (is_string($provider) && ! is_a($provider, '\Vinelab\Minion\Provider', true)) {
+        if (is_string($provider) && !is_a($provider, '\Vinelab\Minion\Provider', true)) {
             throw new InvalidProviderException(
                 sprintf('Provider %s must be an instance of \Vinelab\Minion\Provider', $provider)
             );
         }
 
-        if (! in_array($provider, $this->providers)) {
+        if (!in_array($provider, $this->providers)) {
             $this->providers[] = $provider;
         }
     }
@@ -62,8 +62,6 @@ class Minion {
      * Run the server.
      *
      * @param array $options
-     *
-     * @return void
      *
      * @throws \Exception If encountered any failure starting the client.
      */
@@ -130,8 +128,6 @@ class Minion {
      * Merge the current configuration with the given options.
      *
      * @param array $options
-     *
-     * @return void
      */
     public function mergeConfig(array $options)
     {

@@ -1,10 +1,12 @@
-<?php namespace Vinelab\Minion;
+<?php
+
+namespace Vinelab\Minion;
 
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
  */
-abstract class Provider {
-
+abstract class Provider
+{
     /**
      * The topic prefix.
      *
@@ -28,8 +30,6 @@ abstract class Provider {
     /**
      * Boot this provider. This is the best place to have
      * your subscriptions/registrations for your RPCs and PubSub.
-     *
-     * @return void
      */
     abstract public function boot();
 
@@ -37,8 +37,6 @@ abstract class Provider {
      * Set the client instance.
      *
      * @param \Mulkave\Minion\Client $client
-     *
-     * @return void
      */
     private function setClient(Client $client)
     {
@@ -61,7 +59,7 @@ abstract class Provider {
      * when passing the Client to a registered Closure.
      *
      * @param string $name
-     * @param array $arguments
+     * @param array  $arguments
      *
      * @return string
      */

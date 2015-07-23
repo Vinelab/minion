@@ -1,17 +1,18 @@
-<?php namespace Vinelab\Minion;
+<?php
+
+namespace Vinelab\Minion;
 
 use Closure;
 use Psr\Log\NullLogger;
 use Thruway\Logging\Logger;
-use Vinelab\Minion\Provider;
 
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
  */
-class Client extends \Thruway\Peer\Client {
-
+class Client extends \Thruway\Peer\Client
+{
     /**
-     * The prefix to use when generating topics/
+     * The prefix to use when generating topics/.
      *
      * @var string
      */
@@ -51,8 +52,6 @@ class Client extends \Thruway\Peer\Client {
      *
      * @param \Thruway\AbstractSession              $session
      * @param \Thruway\Transport\TransportInterface $transport
-     *
-     * @return void
      */
     public function onSessionStart($session, $transport)
     {
@@ -63,14 +62,15 @@ class Client extends \Thruway\Peer\Client {
     }
 
     /**
-     * Start the transport
+     * Start the transport.
      *
-     * @param boolean $startLoop
+     * @param bool $startLoop
+     *
      * @throws \Exception
      */
     public function start($debug = false, $startLoop = true)
     {
-        if (! $debug) {
+        if (!$debug) {
             Logger::set(new NullLogger());
         }
 
@@ -79,8 +79,6 @@ class Client extends \Thruway\Peer\Client {
 
     /**
      * Boot up the registered providers by calling their boot() method.
-     *
-     * @return void
      */
     private function bootProviders()
     {
@@ -124,11 +122,12 @@ class Client extends \Thruway\Peer\Client {
      * @param string         $topic      The topic name.
      * @param string|Closure $callback   The callable to be called when the topic received a publish.
      * @param array          $options    Will be passed straight to thruway @see \Thruway\ClientSession::subscribe
-     * @param boolean        $isFunction Specify whether you're passing in a function from a different scope,
+     * @param bool           $isFunction Specify whether you're passing in a function from a different scope,
      *                                   Set this to TRUE to avoid calling the passed callable from this provider's
      *                                   scope.
      *
      * @return \React\Promise\Promise
+     *
      * @see \Thruway\ClientSession::subscribe
      */
     public function subscribe($topic, $callback, $options = null, $isFunction = false)
@@ -192,8 +191,6 @@ class Client extends \Thruway\Peer\Client {
      * Set the topic prefix.
      *
      * @param string $prefix
-     *
-     * @return void
      */
     public function setTopicPrefix($prefix)
     {
@@ -214,8 +211,6 @@ class Client extends \Thruway\Peer\Client {
      * Set the delegate provider of this client.
      *
      * @param \Vinelab\Minion\Provider $provider
-     *
-     * @return void
      */
     public function setDelegateProvider(Provider $provider)
     {
@@ -237,8 +232,8 @@ class Client extends \Thruway\Peer\Client {
      * The reason we use this is to be able to format the given $data into a Dictionary
      * which makes it safer to work with them.
      *
-     * @param  mixed $callback
-     * @param  boolean $isFunction
+     * @param mixed $callback
+     * @param bool  $isFunction
      *
      * @return Closure
      */
@@ -246,9 +241,9 @@ class Client extends \Thruway\Peer\Client {
     {
         // We will wrap the callback with a Closure so that we can format the kwArgs that we receive
         // into our proprietary Dictionary instance to make things safer.
-        return function ($args, $kwArgs) use($callback, $isFunction) {
+        return function ($args, $kwArgs) use ($callback, $isFunction) {
 
-            if (is_string($callback) && ! $isFunction && $this->getDelegateProvider() instanceof Provider) {
+            if (is_string($callback) && !$isFunction && $this->getDelegateProvider() instanceof Provider) {
                 $callback = [$this->getDelegateProvider(), $callback];
             }
 

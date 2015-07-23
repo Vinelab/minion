@@ -1,12 +1,14 @@
-<?php namespace Vinelab\Minion;
+<?php
+
+namespace Vinelab\Minion;
 
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
  */
- 
- // Provider's namespace is Vinelab\Minion\Provider
-class DummyProvider extends Provider {
 
+// Provider's namespace is Vinelab\Minion\Provider
+class DummyProvider extends Provider
+{
     protected $prefix = 'com.example.';
 
     public function boot()

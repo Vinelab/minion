@@ -1,12 +1,14 @@
-<?php namespace Vinelab\Minion\Facade;
+<?php
+
+namespace Vinelab\Minion\Facade;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
  */
-class Minion extends Facade {
-
+class Minion extends Facade
+{
     /**
      * Get the accessor of this facade.
      *

@@ -6,8 +6,8 @@ use Vinelab\Minion\Client;
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
  */
-class ProviderTest extends UnitTestCase {
-
+class ProviderTest extends UnitTestCase
+{
     public function setUp()
     {
         $this->client = new Client('the-realm', []);
@@ -26,8 +26,8 @@ class ProviderTest extends UnitTestCase {
     }
 }
 
-class ProviderStub extends \Vinelab\Minion\Provider {
-
+class ProviderStub extends \Vinelab\Minion\Provider
+{
     public function boot()
     {
     }

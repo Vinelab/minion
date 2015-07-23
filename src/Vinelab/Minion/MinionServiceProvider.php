@@ -1,4 +1,6 @@
-<?php namespace Vinelab\Minion;
+<?php
+
+namespace Vinelab\Minion;
 
 use Illuminate\Support\ServiceProvider;
 use Vinelab\Minion\Console\Commands\RunCommand;
@@ -6,8 +8,8 @@ use Vinelab\Minion\Console\Commands\RunCommand;
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
  */
-class MinionServiceProvider extends ServiceProvider {
-
+class MinionServiceProvider extends ServiceProvider
+{
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -17,20 +19,16 @@ class MinionServiceProvider extends ServiceProvider {
 
     /**
      * Bootstrap the service provider.
-     *
-     * @return void
      */
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../../config/minion.php' => config_path('minion.php')
+            __DIR__.'/../../config/minion.php' => config_path('minion.php'),
         ]);
     }
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {

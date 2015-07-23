@@ -1,10 +1,12 @@
-<?php namespace Vinelab\Minion;
+<?php
+
+namespace Vinelab\Minion;
 
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
  */
-class Dictionary {
-
+class Dictionary
+{
     public function __construct(array $attributes)
     {
         $this->dictionary = json_decode(json_encode($attributes));
@@ -13,13 +15,13 @@ class Dictionary {
     /**
      * Get a new dictionary with the given attributes.
      *
-     * @param  mixed $attributes
+     * @param mixed $attributes
      *
      * @return \Vinelab\Minion\Dictionary
      */
     public static function make($attributes)
     {
-        if (! is_array($attributes)) {
+        if (!is_array($attributes)) {
             $attributes = (array) $attributes;
         }
 
@@ -39,7 +41,7 @@ class Dictionary {
     /**
      * Transform the given array of values into a key-value pair recursively.
      *
-     * @param  array  $values
+     * @param array $values
      *
      * @return array
      */
@@ -47,8 +49,7 @@ class Dictionary {
     {
         $result = [];
 
-        foreach ($values as $key => $value)
-        {
+        foreach ($values as $key => $value) {
             if (is_array($value)) {
                 $result[$key] = $this->toKeyValue($value);
             } elseif (is_object($value)) {
@@ -64,7 +65,7 @@ class Dictionary {
     /**
      * Override the magic __get to reach the attribtues of this dictionary.
      *
-     * @param  string $attribute
+     * @param string $attribute
      *
      * @return mixed
      */
@@ -78,9 +79,9 @@ class Dictionary {
     /**
      * Override to support calling isset() on attributes of this dictionary.
      *
-     * @param  string  $attribute
+     * @param string $attribute
      *
-     * @return boolean
+     * @return bool
      */
     public function __isset($attribute)
     {

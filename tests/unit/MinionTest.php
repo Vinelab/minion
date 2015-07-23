@@ -5,8 +5,8 @@ use Vinelab\Minion\Minion;
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
  */
-class MinionTest extends PHPUnit_Framework_TestCase {
-
+class MinionTest extends PHPUnit_Framework_TestCase
+{
     public function setUp()
     {
         $this->m = new Minion();
@@ -33,8 +33,8 @@ class MinionTest extends PHPUnit_Framework_TestCase {
     {
         $default = [
             'realm' => 'minion',
-            'host'  => '127.0.0.1',
-            'port'  => 9090,
+            'host' => '127.0.0.1',
+            'port' => 9090,
             'debug' => false,
         ];
 
@@ -50,7 +50,7 @@ class MinionTest extends PHPUnit_Framework_TestCase {
     {
         $options = [
             'realm' => 'secrets',
-            'port'  => 19695
+            'port' => 19695,
         ];
 
         $merged = array_merge($this->m->getConfig(), $options);
@@ -59,12 +59,12 @@ class MinionTest extends PHPUnit_Framework_TestCase {
     }
 }
 
-class NonProvider {
-
+class NonProvider
+{
 }
 
-class AProvider extends Vinelab\Minion\Provider {
-
+class AProvider extends Vinelab\Minion\Provider
+{
     public function boot()
     {
     }
