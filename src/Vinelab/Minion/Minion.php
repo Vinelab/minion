@@ -27,6 +27,8 @@ class Minion
         'host' => '127.0.0.1',
         'port' => 9090,
         'debug' => false,
+        'tls' => false,
+        'path' => '/ws',
     ];
 
     /**
@@ -105,7 +107,15 @@ class Minion
      */
     public function transportUrl()
     {
-        return 'ws://'.$this->getConfig('host').':'.$this->getConfig('port').'/ws';
+        $proto = $this->getConfig('tls') ? 'wss' : 'ws';
+        $port = intval($this->getConfig('port'));
+        if($port>0) {
+            $port = ':'.$port;
+        }
+        else {
+            $port = '';
+        }
+        return $proto.'://'.$this->getConfig('host').$port.$this->getConfig('path');
     }
 
     /**
