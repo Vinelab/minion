@@ -59,6 +59,21 @@ class MinionTest extends PHPUnit_Framework_TestCase
         $this->m->mergeConfig($options);
         $this->assertEquals($merged, $this->m->getConfig());
     }
+
+    public function test_config_tls()
+    {
+        $this->assertEquals(false, $this->m->getConfig('tls'));
+        $this->m->mergeConfig(['tls'=>true]);
+        $this->assertEquals(true, $this->m->getConfig('tls'));
+    }
+
+    public function test_config_path()
+    {
+        $path = '/websocket';
+        $this->assertEquals('/ws', $this->m->getConfig('path'));
+        $this->m->mergeConfig(['path'=>$path]);
+        $this->assertEquals($path, $this->m->getConfig('path'));
+    }
 }
 
 class NonProvider

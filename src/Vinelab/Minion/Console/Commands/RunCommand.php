@@ -37,7 +37,7 @@ class RunCommand extends Command
      *
      * @var array
      *
-     * @since 1.3.0
+     * @since 1.3.3
      */
     protected $options = array(
         'realm',
@@ -45,6 +45,8 @@ class RunCommand extends Command
         'port',
         'register',
         'debug',
+        'tls',
+        'path',
     );
 
     /**
@@ -75,6 +77,14 @@ class RunCommand extends Command
             $options['debug'] = true;
         }
 
+        if ($this->option('tls')) {
+            $options['tls'] = true;
+        }
+
+        if ($this->option('path')) {
+            $options['path'] = $this->option('path');
+        }
+
         $m = new Minion();
 
         if ($this->option('register')) {
@@ -103,6 +113,8 @@ class RunCommand extends Command
             ['realm', null, InputOption::VALUE_OPTIONAL, 'Specify WAMP realm to be used'],
             ['host', null, InputOption::VALUE_OPTIONAL, 'Specify the router host'],
             ['port', null, InputOption::VALUE_OPTIONAL, 'Specify the router port'],
+            ['tls', null, InputOption::VALUE_NONE, 'Specify the router protocol as wss'],
+            ['path', null, InputOption::VALUE_OPTIONAL, 'Specify the router path component'],
             ['register', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Register provider classes'],
             ['debug', null, InputOption::VALUE_NONE, 'Run in debug mode outputting all trasport messages.'],
         ];
