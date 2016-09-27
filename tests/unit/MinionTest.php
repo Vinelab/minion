@@ -36,6 +36,8 @@ class MinionTest extends PHPUnit_Framework_TestCase
             'host' => '127.0.0.1',
             'port' => 9090,
             'debug' => false,
+            'tls' => false,
+            'path' => '/ws',
         ];
 
         $this->assertEquals($default, $this->m->getConfig());
