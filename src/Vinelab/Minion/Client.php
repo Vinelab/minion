@@ -239,12 +239,15 @@ class Client extends \Thruway\Peer\Client
      */
     public function wrapWithProxy($callback, $isFunction = false)
     {
+        // Save provider context for resolving method by name with many providers use
+        $provider = $this->getDelegateProvider();
+
         // We will wrap the callback with a Closure so that we can format the kwArgs that we receive
         // into our proprietary Dictionary instance to make things safer.
-        return function ($args, $kwArgs) use ($callback, $isFunction) {
+        return function ($args, $kwArgs) use ($callback, $isFunction, $provider) {
 
-            if (is_string($callback) && !$isFunction && $this->getDelegateProvider() instanceof Provider) {
-                $callback = [$this->getDelegateProvider(), $callback];
+            if (is_string($callback) && !$isFunction && $provider instanceof Provider) {
+                $callback = [$provider, $callback];
             }
 
             return call_user_func_array($callback, [$args, Dictionary::make($kwArgs)]);
