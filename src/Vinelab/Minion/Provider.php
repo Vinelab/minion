@@ -67,4 +67,20 @@ abstract class Provider
     {
         return call_user_func_array([$this->getClient(), $name], $arguments);
     }
+
+    /**
+     * Publish to a topic with the given data.
+     *
+     * @param string      $topic
+     * @param array|mixed $arguments
+     * @param array|mixed $argumentsKw
+     * @param array       $options
+     *
+     * @return \React\Promise\Promise
+     */
+    public function publish($topic, $arguments = null, $argumentsKw = null, $options = null)
+    {
+        return $this->getClient()->getSession()
+            ->publish($this->prefix . $topic, $arguments, $argumentsKw, $options);
+    }
 }
