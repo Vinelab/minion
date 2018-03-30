@@ -5,6 +5,7 @@ namespace Vinelab\Minion;
 use Closure;
 use Psr\Log\NullLogger;
 use Thruway\Logging\Logger;
+use React\EventLoop\LoopInterface;
 
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
@@ -37,10 +38,11 @@ class Client extends \Thruway\Peer\Client
      *
      * @param string $realm
      * @param array  $providers
+     * @param \React\EventLoop\LoopInterface $loop
      */
-    public function __construct($realm, array $providers)
+    public function __construct($realm, array $providers, LoopInterface $loop = null)
     {
-        parent::__construct($realm);
+        parent::__construct($realm, $loop);
 
         $this->providers = $providers;
     }
