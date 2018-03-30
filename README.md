@@ -67,6 +67,14 @@ $m->run(
 );
 ```
 
+In existing applications it may be useful to be re-use an existing ReactPHP loop. You can pass in a LoopInterface like so:
+
+```php
+$loop = React\EventLoop\Factory::create();
+$m = new Minion();
+$m->run([], $loop);
+```
+
 ## Usage
 The idea behind Minion is to help structure your application and get it ready for scale
 with real-time communication by using **providers** to *register RPCs* and *publish and subscribe to topics*
