@@ -371,7 +371,7 @@ class ClientTest extends UnitTestCase
     }
 }
 
-class ClientTestProviderStub extends PHPUnit_Framework_TestCase
+class ClientTestProviderStub extends PHPUnit\Framework\TestCase
 {
     public function __construct($client)
     {

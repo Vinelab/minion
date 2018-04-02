@@ -5,7 +5,7 @@ use Vinelab\Minion\Minion;
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
  */
-class MinionTest extends PHPUnit_Framework_TestCase
+class MinionTest extends PHPUnit\Framework\TestCase
 {
     public function setUp()
     {

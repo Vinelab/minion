@@ -55,8 +55,13 @@ class Client extends \Thruway\Peer\Client
      */
     public function onSessionStart($session, $transport)
     {
+        // Below disabled. Logging is now handled through a static class
+        // so there is no way that I can see to disable the logging since
+        // the split from voryx/thruway to thruway/client. getManager is
+        // also no longer a method on the Client class.
         // Shush the logs.
-        $this->getManager()->setQuiet(true);
+        // $this->getManager()->setQuiet(true);
+        
         // Boot up providers
         $this->bootProviders();
     }
