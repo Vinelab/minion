@@ -246,13 +246,15 @@ class Client extends \Thruway\Peer\Client
 
         // We will wrap the callback with a Closure so that we can format the kwArgs that we receive
         // into our proprietary Dictionary instance to make things safer.
-        return function ($args, $kwArgs) use ($callback, $isFunction, $provider) {
+        return function ($args, $kwArgs, $details) use ($callback, $isFunction, $provider) {
 
             if (is_string($callback) && !$isFunction && $provider instanceof Provider) {
                 $callback = [$provider, $callback];
             }
 
-            return call_user_func_array($callback, [$args, Dictionary::make($kwArgs)]);
+            $params = [$args, Dictionary::make($kwArgs), Dictionary::make($details)];
+
+            return call_user_func_array($callback, $params);
         };
     }
 }
