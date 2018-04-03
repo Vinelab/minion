@@ -4,6 +4,7 @@ namespace Vinelab\Minion;
 
 use Closure;
 use Thruway\Transport\PawlTransportProvider;
+use React\EventLoop\LoopInterface;
 
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
@@ -64,17 +65,18 @@ class Minion
      * Run the server.
      *
      * @param array $options
+     * @param \React\EventLoop\LoopInterface $loop
      *
      * @throws \Exception If encountered any failure starting the client.
      */
-    public function run($options = [])
+    public function run($options = [], LoopInterface $loop = null)
     {
         $this->mergeConfig($options);
 
         // Print out our lovely minion.
         echo $this->gimmeASCII()."\n";
 
-        $client = $this->newClient();
+        $client = $this->newClient($loop);
         $client->addTransportProvider($this->newTransportProvider());
 
         return $client->start($this->getConfig('debug'));
@@ -82,12 +84,14 @@ class Minion
 
     /**
      * Get a new Client instance.
+     * 
+     * @param \React\EventLoop\LoopInterface $loop
      *
      * @return \Vinelab\Minion\Client
      */
-    public function newClient()
+    public function newClient(LoopInterface $loop = null)
     {
-        return new Client($this->getConfig('realm'), $this->getRegisteredProviders());
+        return new Client($this->getConfig('realm'), $this->getRegisteredProviders(), $loop);
     }
 
     /**
