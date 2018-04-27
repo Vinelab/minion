@@ -1,5 +1,5 @@
 <?php
-require_once './vendor/autoload.php';
+
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
  */
