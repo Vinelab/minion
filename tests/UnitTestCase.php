@@ -3,7 +3,7 @@ require_once './vendor/autoload.php';
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
  */
-class UnitTestCase extends PHPUnit\Framework\TestCase
+class UnitTestCase extends PHPUnit_Framework_TestCase
 {
     public function test_running()
     {

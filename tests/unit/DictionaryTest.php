@@ -5,7 +5,7 @@ use Vinelab\Minion\Dictionary;
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
  */
-class DictionaryTest extends PHPUnit\Framework\TestCase
+class DictionaryTest extends PHPUnit_Framework_TestCase
 {
     public function test_initializing_dictionary()
     {
