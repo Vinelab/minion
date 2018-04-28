@@ -4,6 +4,7 @@ namespace Vinelab\Minion;
 
 use Closure;
 use Thruway\Transport\PawlTransportProvider;
+use Thruway\Authentication\ClientWampCraAuthenticator;
 use React\EventLoop\LoopInterface;
 
 /**
@@ -79,6 +80,13 @@ class Minion
         $client = $this->newClient($loop);
         $client->addTransportProvider($this->newTransportProvider());
 
+        $auth = $this->getConfig('auth');
+        if (!empty($auth)) {
+            $client->addClientAuthenticator(
+                $this->newAuthenticator($auth['authid'], $auth['secret'])
+            );
+        }
+
         return $client->start($this->getConfig('debug'));
     }
 
@@ -102,6 +110,19 @@ class Minion
     public function newTransportProvider()
     {
         return new PawlTransportProvider($this->transportUrl());
+    }
+
+    /**
+     * Get a new wampcra authenticator instance.
+     * 
+     * @param string $authid
+     * @param string $secret
+     * 
+     * @return \Thruway\Authentication\ClientWampCraAuthenticator
+     */
+    public function newAthenticator($authid, $secret)
+    {
+        return new ClientWampCraAuthenticator($authid, $secret);
     }
 
     /**

@@ -33,8 +33,22 @@ Configure the connection parameters you want your client to use when it connects
 ### Router
 
 ```php
-$m = new Minion():
+$m = new Minion();
 $m->run(['realm' => 'myrealm', 'host' => 'some.host.ws', 'port' => 8182]);
+```
+
+### Authentication
+A basic wampcra authenticator for minion can be enabled by adding the configuration for authentication.
+
+```php
+$m = new Minion();
+$m->run([
+    'realm' => 'secretrealm',
+    'auth' => [
+        'authid' => 'minion',
+        'secret' => 'ultrasecretkey'
+    ]
+]);
 ```
 
 ### Provider Registration
@@ -67,6 +81,7 @@ $m->run(
 );
 ```
 
+### Loop
 In existing applications it may be useful to be re-use an existing ReactPHP loop. You can pass in a LoopInterface like so:
 
 ```php
