@@ -3,10 +3,11 @@
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
  */
-class UnitTestCase extends PHPUnit_Framework_TestCase
+class UnitTestCase extends PHPUnit\Framework\TestCase
 {
     public function test_running()
     {
+        $this->asserttrue(true);
     }
 
     protected function unProtectMethod($name, $class)
