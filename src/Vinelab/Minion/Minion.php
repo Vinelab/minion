@@ -4,6 +4,7 @@ namespace Vinelab\Minion;
 
 use Closure;
 use Thruway\Transport\PawlTransportProvider;
+use Vinelab\Minion\Authentication\TicketAuthentication;
 
 /**
  * @author Abed Halawi <abed.halawi@vinelab.com>
@@ -75,6 +76,14 @@ class Minion
         echo $this->gimmeASCII()."\n";
 
         $client = $this->newClient();
+
+        if ($auth = $this->getConfig('auth')) {
+            $client->setAuthId($auth['id']);
+            $client->addClientAuthenticator(
+                $this->newClientAuthenticator($auth['method'], $auth['id'], $auth['secret'])
+            );
+        }
+
         $client->addTransportProvider($this->newTransportProvider());
 
         return $client->start($this->getConfig('debug'));
@@ -88,6 +97,24 @@ class Minion
     public function newClient()
     {
         return new Client($this->getConfig('realm'), $this->getRegisteredProviders());
+    }
+
+    /**
+     * Get a new instance of the Client Authenticator
+     *
+     * @param string $method
+     * @param string $id
+     * @param string $secret
+     * @return ClientAuthentication
+     */
+    public function newClientAuthenticator($method, $id, $secret)
+    {
+        switch ($method) {
+            case TicketAuthentication::AUTHENTICATION_METHOD:
+                return new TicketAuthentication($id, $secret);
+            default:
+                return;
+        }
     }
 
     /**
