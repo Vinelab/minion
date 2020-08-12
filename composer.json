@@ -31,6 +31,16 @@
             "Examples/basic"
         ]
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Vinelab\\Minion\\MinionServiceProvider"
+            ],
+            "aliases": {
+                "Minion": "Vinelab\\Minion\\Facade\\Minion"
+            }
+        }
+    },
     "bin": ["minion"],
     "minimum-stability": "stable"
 }
