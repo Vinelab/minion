@@ -7,7 +7,7 @@ use Vinelab\Minion\Dictionary;
  */
 class DictionaryTest extends PHPUnit\Framework\TestCase
 {
-    public function test_initializing_dictionary()
+    public function test_initializing_dictionary(): void
     {
         $dict = Dictionary::make(['nick' => 'cave', 'back' => 'seeds']);
 
@@ -15,7 +15,7 @@ class DictionaryTest extends PHPUnit\Framework\TestCase
         $this->assertEquals('seeds', $dict->back);
     }
 
-    public function test_initializing_with_object()
+    public function test_initializing_with_object(): void
     {
         $data = new StdClass();
         $data->into = 'my arms';
@@ -27,7 +27,7 @@ class DictionaryTest extends PHPUnit\Framework\TestCase
         $this->assertEquals('angels', $data->believe);
     }
 
-    public function test_array_representation()
+    public function test_array_representation(): void
     {
         $flying = new StdClass();
         $flying->wings = 2;
@@ -55,7 +55,7 @@ class DictionaryTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $dict->toArray());
     }
 
-    public function test_allows_checking_attributes()
+    public function test_allows_checking_attributes(): void
     {
         $data = ['lime' => 'tree', 'cherry'];
         $dict = Dictionary::make($data);

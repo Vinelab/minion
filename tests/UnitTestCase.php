@@ -5,7 +5,7 @@
  */
 class UnitTestCase extends PHPUnit\Framework\TestCase
 {
-    public function test_running()
+    public function test_running(): void
     {
         $this->asserttrue(true);
     }

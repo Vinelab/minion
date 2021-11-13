@@ -8,18 +8,18 @@ use Vinelab\Minion\Client;
  */
 class ProviderTest extends UnitTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->client = new Client('the-realm', []);
         $this->provider = new ProviderStub($this->client);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         M::close();
     }
 
-    public function test_initializing_sets_client()
+    public function test_initializing_sets_client(): void
     {
         $getClient = $this->unProtectMethod('getClient', $this->provider);
         $this->assertEquals($this->client, $getClient->invoke($this->provider));

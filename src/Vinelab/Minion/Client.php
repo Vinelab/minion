@@ -63,7 +63,7 @@ class Client extends \Thruway\Peer\Client
         // also no longer a method on the Client class.
         // Shush the logs.
         // $this->getManager()->setQuiet(true);
-        
+
         // Boot up providers
         $this->bootProviders();
     }
@@ -252,7 +252,6 @@ class Client extends \Thruway\Peer\Client
         // We will wrap the callback with a Closure so that we can format the kwArgs that we receive
         // into our proprietary Dictionary instance to make things safer.
         return function ($args, $kwArgs, $details) use ($callback, $isFunction, $provider) {
-
             if (is_string($callback) && !$isFunction && $provider instanceof Provider) {
                 $callback = [$provider, $callback];
             }
