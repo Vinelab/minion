@@ -8,26 +8,26 @@ use Vinelab\Minion\Client;
  */
 class ClientTest extends UnitTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->client = M::mock(new Client('i.the.divine', []));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         M::close();
     }
 
-    public function test_initializing_sets_providers()
+    public function test_initializing_sets_providers(): void
     {
         $providers = ['prov1', 'prov2'];
         $c = new Client('julia.dream', $providers);
         $this->assertEquals($providers, $c->getProviders());
     }
 
-    public function test_on_session_start_boots_providers()
+    public function test_on_session_start_boots_providers(): void
     {
         $called = [];
 
@@ -49,7 +49,7 @@ class ClientTest extends UnitTestCase
         $this->assertInstanceOf('Vinelab\Minion\Client', $called['andMe']);
     }
 
-    public function test_preparing_topic()
+    public function test_preparing_topic(): void
     {
         $this->client->setTopicPrefix('some.topic.prefix.');
 
@@ -59,7 +59,7 @@ class ClientTest extends UnitTestCase
         $this->assertEquals('some.topic.prefix.', $this->client->getTopicPrefix());
     }
 
-    public function test_subscribing_with_provider_method()
+    public function test_subscribing_with_provider_method(): void
     {
         $session = M::mock('Thruway\ClientSession');
         $promise = M::mock('React\Promise\Promise');
@@ -79,7 +79,7 @@ class ClientTest extends UnitTestCase
         $this->assertEquals($promise, $got);
     }
 
-    public function test_subscribing_with_options()
+    public function test_subscribing_with_options(): void
     {
         $session = M::mock('Thruway\ClientSession');
         $promise = M::mock('React\Promise\Promise');
@@ -96,7 +96,7 @@ class ClientTest extends UnitTestCase
         $this->assertEquals($promise, $got);
     }
 
-    public function test_registering_with_options()
+    public function test_registering_with_options(): void
     {
         $session = M::mock('Thruway\ClientSession');
 
@@ -115,7 +115,7 @@ class ClientTest extends UnitTestCase
         $this->assertEquals($promise, $got);
     }
 
-    public function test_registering_with_function()
+    public function test_registering_with_function(): void
     {
         $session = M::mock('Thruway\ClientSession');
 
@@ -135,7 +135,7 @@ class ClientTest extends UnitTestCase
         $this->assertEquals($promise, $got);
     }
 
-    public function test_registering_prepares_topic()
+    public function test_registering_prepares_topic(): void
     {
         $session = M::mock('Thruway\ClientSession');
 
@@ -155,7 +155,7 @@ class ClientTest extends UnitTestCase
         $this->assertEquals($promise, $got);
     }
 
-    public function test_calling_simple()
+    public function test_calling_simple(): void
     {
         $session = M::mock('Thruway\ClientSession');
         $promise = M::mock('React\Promise\Promise');
@@ -171,7 +171,7 @@ class ClientTest extends UnitTestCase
         $this->assertEquals($promise, $got);
     }
 
-    public function test_calling_full()
+    public function test_calling_full(): void
     {
         $topic = 'pub.topic';
         $arguments = ['dddddata' => 'hhhhhere'];
@@ -190,7 +190,7 @@ class ClientTest extends UnitTestCase
         $this->assertEquals($promise, $got);
     }
 
-    public function test_calling_prepares_topic()
+    public function test_calling_prepares_topic(): void
     {
         $topic = 'pub.topic';
         $prefixed = 'test.test.pub.test.pub.topic';
@@ -211,7 +211,7 @@ class ClientTest extends UnitTestCase
         $this->assertEquals($promise, $got);
     }
 
-    public function test_registering_with_provider_method()
+    public function test_registering_with_provider_method(): void
     {
         $session = M::mock('Thruway\ClientSession');
 
@@ -231,7 +231,7 @@ class ClientTest extends UnitTestCase
         $this->assertEquals($promise, $got);
     }
 
-    public function test_registering_with_closure()
+    public function test_registering_with_closure(): void
     {
         $session = M::mock('Thruway\ClientSession');
 
@@ -253,7 +253,7 @@ class ClientTest extends UnitTestCase
         $this->assertEquals($promise, $got);
     }
 
-    public function test_publishing_prepares_topic()
+    public function test_publishing_prepares_topic(): void
     {
         $topic = 'pub.topic';
         $prefixed = 'test.test.pub.test.pub.topic';
@@ -274,7 +274,7 @@ class ClientTest extends UnitTestCase
         $this->assertEquals($promise, $got);
     }
 
-    public function test_publishing_simple()
+    public function test_publishing_simple(): void
     {
         $session = M::mock('Thruway\ClientSession');
         $promise = M::mock('React\Promise\Promise');
@@ -290,7 +290,7 @@ class ClientTest extends UnitTestCase
         $this->assertEquals($promise, $got);
     }
 
-    public function test_subscribing_prepares_topic()
+    public function test_subscribing_prepares_topic(): void
     {
         $session = M::mock('Thruway\ClientSession');
         $promise = M::mock('React\Promise\Promise');
@@ -307,7 +307,7 @@ class ClientTest extends UnitTestCase
         $this->assertEquals($promise, $got);
     }
 
-    public function test_subscribing_with_function()
+    public function test_subscribing_with_function(): void
     {
         $session = M::mock('Thruway\ClientSession');
         $promise = M::mock('React\Promise\Promise');
@@ -321,7 +321,7 @@ class ClientTest extends UnitTestCase
         $this->assertEquals($promise, $got);
     }
 
-    public function test_subscribing_with_closure()
+    public function test_subscribing_with_closure(): void
     {
         $session = M::mock('Thruway\ClientSession');
         $promise = M::mock('React\Promise\Promise');
@@ -336,7 +336,7 @@ class ClientTest extends UnitTestCase
         $this->assertEquals($promise, $got);
     }
 
-    public function test_publishing_full()
+    public function test_publishing_full(): void
     {
         $topic = 'pub.topic';
         $arguments = ['dddddata' => 'hhhhhere'];

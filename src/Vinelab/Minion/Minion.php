@@ -84,7 +84,7 @@ class Minion
 
     /**
      * Get a new Client instance.
-     * 
+     *
      * @param \React\EventLoop\LoopInterface $loop
      *
      * @return \Vinelab\Minion\Client
@@ -113,10 +113,9 @@ class Minion
     {
         $proto = $this->getConfig('tls') ? 'wss' : 'ws';
         $port = intval($this->getConfig('port'));
-        if($port>0) {
+        if ($port>0) {
             $port = ':'.$port;
-        }
-        else {
+        } else {
             $port = '';
         }
         return $proto.'://'.$this->getConfig('host').$port.$this->getConfig('path');
